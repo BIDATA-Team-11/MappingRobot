@@ -6,6 +6,7 @@ import lejos.robotics.chassis.WheeledChassis;
 import lejos.robotics.chassis.WheeledChassis.Modeler;
 import lejos.hardware.motor.Motor;
 import lejos.robotics.navigation.MovePilot;
+import lejos.robotics.navigation.LineFollowingMoveController;
 import lejos.robotics.RegulatedMotor;
 
 class Robot {
@@ -14,6 +15,13 @@ class Robot {
   private Chassis chassis;
   private MovePilot pilot;
   private Direction currentDirectionState;
+  private LineFollowingMoveController lineFollower;
+
+  public enum Mode {
+    LINE_FOLLOWING
+  }
+
+  Mode mode;
 
   Robot(float wheelOffset) {
     this.wheel1 = modelWheel(Motor.A, Dimensions.wheelSize).offset(-wheelOffset);
@@ -21,6 +29,11 @@ class Robot {
     this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
     this.pilot = new MovePilot(chassis);
     this.currentDirectionState = Direction.STOP;
+    this.mode = Mode.LINE_FOLLOWING;
+  }
+
+  public void setMode(Mode mode) {
+    this.mode = mode;
   }
 
   public Direction getCurrentDirectionState() {
@@ -32,7 +45,13 @@ class Robot {
   }
 
   public void update() {
-
+    if (mode == Mode.LINE_FOLLOWING) {
+      switch (currentDirectionState) {
+        case FORWARD: lineFollower.steer(0); break;
+        case LEFT: lineFollower.steer(-90); break;
+        case RIGHT: lineFollower.steer(90); break;
+      }
+    }
   }
 
   /*
