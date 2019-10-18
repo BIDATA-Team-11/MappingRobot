@@ -12,16 +12,28 @@ class Robot {
   private Wheel wheel1;
   private Wheel wheel2;
   private Chassis chassis;
-  MovePilot pilot;
+  private MovePilot pilot;
+  private Direction currentDirectionState;
 
-  Robot(int wheelOffset) {
+  Robot(float wheelOffset) {
     this.wheel1 = modelWheel(Motor.A, Dimensions.wheelSize).offset(-wheelOffset);
     this.wheel2 = modelWheel(Motor.B, Dimensions.wheelSize).offset(wheelOffset);
     this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
     this.pilot = new MovePilot(chassis);
+    this.currentDirectionState = Direction.STOP;
   }
 
+  public Direction getCurrentDirectionState() {
+    return this.currentDirectionState;
+  }
 
+  public void setDirectionState(Direction state) {
+    this.currentDirectionState = state;
+  }
+
+  public void update() {
+
+  }
 
   /*
    * Metoden nedenfor er hentet inn her på grunn av en bug i API.
