@@ -17,16 +17,18 @@ public enum Direction {
      * Høyre retning
      */
     RIGHT,
+    SHARP_RIGHT,
     /**
      * Venstre retning
      */
     LEFT,
+    SHARP_LEFT,
     /**
      * Framover
      */
     FORWARD,
     /**
-     * Stop
+     * Stopp
      */
     STOP
 }
