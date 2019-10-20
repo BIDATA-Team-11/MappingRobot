@@ -13,22 +13,18 @@
 package team11.mappingrobot;
 
 public enum Direction {
-    /**
-     * Høyre retning
-     */
+    /** Turn right while driving */
     RIGHT,
+    /** Stop, then turn right */
     SHARP_RIGHT,
-    /**
-     * Venstre retning
-     */
+    /** Turn left while driving */
     LEFT,
+    /** Stop, then turn left */
     SHARP_LEFT,
-    /**
-     * Framover
-     */
+    /** Go forward */
     FORWARD,
-    /**
-     * Stopp
-     */
+    /** Drive or turn backwards */
+    REVERSE,
+    /** Stop */
     STOP
 }
