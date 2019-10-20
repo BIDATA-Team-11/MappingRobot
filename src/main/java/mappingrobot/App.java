@@ -38,6 +38,8 @@ public class App {
     ColorSensor mainSensor = new ColorSensor(mainSensorPort);
     ColorSensor correctionSensor = new ColorSensor(correctionSensorPort);
 
+    DistanceMeasure distanceSensor = new Ultrasonic(brick.getPort("S3"));
+
     System.out.println("2.0.0-awesomebot");
     System.out.println("");
     System.out.println("Enter:  Start");
@@ -52,16 +54,16 @@ public class App {
       if (knapp == Button.ID_RIGHT) {
       } else if (knapp == Button.ID_LEFT) {
         robot = new Robot(robotDescription.wheelOffset); // true: kalkulerte hastigheter, false: hardkoda hastigheter.
-        start(mainSensor, correctionSensor, robot, false);
+        start(mainSensor, correctionSensor, robot);
       } else if (knapp == Button.ID_DOWN) {
         mainSensor.printFargeID();
         correctionSensor.printFargeID();
       } else if (knapp == Button.ID_UP) {
         robot = new Robot(robotDescription.wheelOffset); // true: kalkulerte hastigheter, false: hardkoda hastigheter.
-        start(mainSensor, correctionSensor, robot, false);
+        start(mainSensor, correctionSensor, robot);
       } else if (knapp == Button.ID_ENTER) {
         robot = new Robot(robotDescription.wheelOffset); // true: kalkulerte hastigheter, false: hardkoda hastigheter.
-        start(mainSensor, correctionSensor, robot, false);
+        start(mainSensor, correctionSensor, robot);
       }
     } while (true);
     /*
@@ -78,7 +80,7 @@ public class App {
   * @see ColorSensor
   * @see Robot
   */
-  public static void start(ColorSensor mainSensor, ColorSensor correctionSensor, Robot robot, boolean testWhile) {
+  public static void start(ColorSensor mainSensor, ColorSensor correctionSensor, Robot robot) {
 
     /*
     * Flagg som indikerer at linja befinner seg mellom sensorene. Dette løser en del problemer

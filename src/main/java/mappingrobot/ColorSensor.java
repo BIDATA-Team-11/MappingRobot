@@ -1,5 +1,5 @@
 /**
- * Hjelpeklasse for fargesensorene i LejOS API.
+ * Helper class for EV3ColorSensor.
  * @author Stian Selvåg
  * @author Herman Aagaard
  * @author Henrik Hafsø
@@ -7,7 +7,7 @@
  * @author Erling Sletta
  * @author Torbjørn Øverås
  * @author Gruppe 11, dataingeniør NTNU, første semester.
- * @version 1.1.0
+ * @version 2.0.0
  */
 
 package team11.mappingrobot;
@@ -17,9 +17,6 @@ import lejos.robotics.SampleProvider;
 import lejos.hardware.port.Port;
 import lejos.robotics.Color;
 import lejos.hardware.Button;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.Keys;
-import lejos.hardware.ev3.EV3;
 
 public class ColorSensor {
     private EV3ColorSensor sensor;
@@ -33,12 +30,11 @@ public class ColorSensor {
     }
 
     /**
-     * Testmetode. Printer fargeverdi.
-     * TODO: Kanskje fjerne denne. Da kan vi ta bort mange imports. Må da også fjerne call fra App.java.
+     * Printer fargeverdi fra sensor.
+     * @deprecated Erstattes med {@link #getColorIDString}.
+     * @see #getColorIDString
      */
      public void printFargeID() {
-         EV3 ev3 = (EV3) BrickFinder.getLocal();
-         Keys keys = ev3.getKeys();
          SampleProvider colorSample = this.sensor.getColorIDMode();
          float[] sample = new float[colorSample.sampleSize()];
          colorSample.fetchSample(sample, 0);
@@ -55,6 +51,29 @@ public class ColorSensor {
              case Color.BROWN: colorName = "BROWN"; break;
          }
          System.out.println(colorId + " - " + colorName);
+     }
+
+     /**
+      * Henter fargeverdi fra sensor.
+      * @return Fargeverdi som tekststreng. Nyttig i testing og debugging.
+      */
+     public String getColorIDString() {
+       SampleProvider colorSample = this.sensor.getColorIDMode();
+       float[] sample = new float[colorSample.sampleSize()];
+       colorSample.fetchSample(sample, 0);
+       int colorId = (int)sample[0];
+       String colorName = "";
+       switch(colorId){
+           case Color.NONE: colorName = "NONE"; break;
+           case Color.BLACK: colorName = "BLACK"; break;
+           case Color.BLUE: colorName = "BLUE"; break;
+           case Color.GREEN: colorName = "GREEN"; break;
+           case Color.YELLOW: colorName = "YELLOW"; break;
+           case Color.RED: colorName = "RED"; break;
+           case Color.WHITE: colorName = "WHITE"; break;
+           case Color.BROWN: colorName = "BROWN"; break;
+       }
+       return colorName;
      }
 
      /**
@@ -77,10 +96,10 @@ public class ColorSensor {
      }
 
      /**
-      * Metode for å se om sensoren ser svart. Denne er ubrukt i Awesomebot!
-      * @return True hvis sensoren ser noe annet enn svart eller hvit, false ellers.
+      * Metode som forteller om sensoren ser noe annet enn svart eller hvitt.
+      * @return boolean Positiv dersom sensoren ser noe annet enn svart eller hvitt.
       */
-     public boolean erUbestemt() {
+     public boolean notBlackNorWhite() {
        SampleProvider colorSample = this.sensor.getColorIDMode();
        float[] sample = new float[colorSample.sampleSize()];
        colorSample.fetchSample(sample, 0);
