@@ -28,8 +28,7 @@ public class App {
     /*
      * Oppsett av fargesensorer.
      */
-    ColorSensor mainSensor = new ColorSensor("S2");
-    ColorSensor correctionSensor = new ColorSensor("S4");
+
 
     DistanceMeasure distanceSensor = new Ultrasonic("S3");
 
@@ -39,7 +38,7 @@ public class App {
 
     RobotDescription robotDescription = new RobotDescription();
 
-    Robot robot = new LineFollowingRobot(robotDescription.wheelOffset, Dimensions.wheelSize);
+    Robot robot = new LineFollowingRobot(robotDescription.wheelOffset, RobotDescription.wheelSize);
 
     int key;
 
@@ -48,10 +47,7 @@ public class App {
 
       if (key == Button.ID_RIGHT) {
       } else if (key == Button.ID_LEFT) {
-        start(mainSensor, correctionSensor, robot);
-      } else if (key == Button.ID_DOWN) {
-        mainSensor.printFargeID();
-        correctionSensor.printFargeID();
+        start(robot);
       }
     } while (true);
     /*
@@ -68,7 +64,7 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start(ColorSensor mainSensor, ColorSensor correctionSensor, Robot robot) {
+  public static void start(Robot robot) {
 
     /*
      * Flagg som indikerer at linja befinner seg mellom sensorene. Dette løser en del problemer
@@ -76,7 +72,7 @@ public class App {
      * mister linja. Flagget settes med en gang korrigeringssensoren ser linja, og fjernes så
      * snart hovedsensoren finner linja igjen.
      */
-    boolean lineIsBetweenSensors = false;
+
 
     int button;
 
@@ -86,25 +82,7 @@ public class App {
      * Her ligger logikken som styrer retning - fram, sving til venstre, sving til høyre.
      */
     while (true) {
-      if (mainSensor.lostLine()) {
-        if (robot.getCurrentDirectionState() == Robot.Direction.FORWARD || correctionSensor.hasLine()) {
-          if (correctionSensor.hasLine()) {
-            robot.setDirectionState(Robot.Direction.RIGHT);
-          } else if (!lineIsBetweenSensors) {
-            robot.setDirectionState(Robot.Direction.LEFT);
-          }
-        }
-      }
 
-      if (mainSensor.lostLine() && correctionSensor.hasLine()) {
-        robot.setDirectionState(Robot.Direction.RIGHT);
-        lineIsBetweenSensors = true;
-      }
-
-      if (mainSensor.hasLine()) {
-        robot.setDirectionState(Robot.Direction.FORWARD);
-        lineIsBetweenSensors = false;
-      }
 
       robot.update();
     }

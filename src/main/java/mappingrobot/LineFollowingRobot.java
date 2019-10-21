@@ -26,9 +26,12 @@ public class LineFollowingRobot implements Robot {
   private Chassis chassis;
   private MovePilot pilot;
   private Direction activeDirectionState = Direction.STOP;
-  private Direction newDirectionState = Direction.STOP;
+  private Direction nextDirectionState = Direction.STOP;
   private LineFollowingMoveController lineFollower;
   private int turnRadius = 90;
+  private boolean lineIsBetweenSensors = false;
+  private ColorSensor mainSensor = new ColorSensor("S2");
+  private ColorSensor correctionSensor = new ColorSensor("S4");
 
   /**
    * Constructs a Robot with differential steering.
@@ -49,7 +52,7 @@ public class LineFollowingRobot implements Robot {
 
   /** {@inheritDoc} */
   @Override public void setDirectionState(Direction state) {
-    this.newDirectionState = state;
+    this.nextDirectionState = state;
   }
 
   /**
@@ -79,10 +82,34 @@ public class LineFollowingRobot implements Robot {
     }
   }
 
+  public Direction updateDirection() {
+    if (mainSensor.lostLine()) {
+      if (this.getCurrentDirectionState() == Direction.FORWARD || this.correctionSensor.hasLine()) {
+        if (this.correctionSensor.hasLine()) {
+          this.setDirectionState(Direction.RIGHT);
+        } else if (!lineIsBetweenSensors) {
+          this.setDirectionState(Direction.LEFT);
+        }
+      }
+    }
+
+    if (mainSensor.lostLine() && this.correctionSensor.hasLine()) {
+      this.setDirectionState(Direction.RIGHT);
+      lineIsBetweenSensors = true;
+    }
+
+    if (mainSensor.hasLine()) {
+      this.setDirectionState(Direction.FORWARD);
+      lineIsBetweenSensors = false;
+    }
+
+    return this.nextDirectionState;
+  }
+
   /** {@inheritDoc} */
   @Override public void update() {
-    if(this.activeDirectionState != this.newDirectionState) {
-      this.activeDirectionState = this.newDirectionState;
+    if(this.activeDirectionState != this.nextDirectionState) {
+      this.activeDirectionState = this.nextDirectionState;
       switch (this.activeDirectionState) {
         case FORWARD: lineFollower.steer(0); break;
         case LEFT: lineFollower.steer(-this.turnRadius); break;
