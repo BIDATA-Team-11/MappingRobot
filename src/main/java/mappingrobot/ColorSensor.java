@@ -17,16 +17,30 @@ import lejos.robotics.SampleProvider;
 import lejos.hardware.port.Port;
 import lejos.robotics.Color;
 import lejos.hardware.Button;
+import lejos.hardware.Brick;
+import lejos.hardware.BrickFinder;
 
 public class ColorSensor {
     private EV3ColorSensor sensor;
 
     /**
-     * Konstuerer en ny EV3ColorSensor fra LejOS API.
-     * @param port Fysisk port på EV3-maskinen.
+     * Constructs a new color sensor connected to specific brick.
+     * @param port Physical port on EV3.
+     * @param brick EV3 brick to use.
      */
-    public ColorSensor(Port port) {
-        sensor = new EV3ColorSensor(port);
+    public ColorSensor(String port, Brick brick) {
+      Port physicalPort = brick.getPort(port);
+      sensor = new EV3ColorSensor(physicalPort);
+    }
+
+    /**
+     * Constructs a new color sensor connected to default brick.
+     * @param port Physical port on EV3.
+     */
+    public ColorSensor(String port) {
+      Brick brick = BrickFinder.getDefault();
+      Port physicalPort = brick.getPort(port);
+      sensor = new EV3ColorSensor(physicalPort);
     }
 
     /**

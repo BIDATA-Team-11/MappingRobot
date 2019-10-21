@@ -28,19 +28,13 @@ class Ultrasonic implements DistanceMeasure {
     this.sample[this.distance.sampleSize()] = 0;
   }
 
-  /**
-   * Whether an object is within range.
-   * @return boolean True if an object is within range of the sensor.
-   */
-  @Override public boolean canSeeObject() {
+  /** {@inheritDoc} */
+  @Override public boolean objectInRange() {
     this.distance.fetchSample(this.sample, 0);
     return this.sample[0] != Float.POSITIVE_INFINITY;
   }
 
-  /**
-   * Get distance to the closest object within range.
-   * @return float Distance in cm.
-   */
+  /** {@inheritDoc} */
   @Override public float getDistance() {
     return this.sample[0];
   }

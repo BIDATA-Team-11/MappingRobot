@@ -82,7 +82,7 @@ public interface Robot {
   /**
    * If set direction has changed, activate it.
    * @see #setDirectionState
-   * @see getCurrentDirectionState
+   * @see #getCurrentDirectionState
    */
   public void update();
 }

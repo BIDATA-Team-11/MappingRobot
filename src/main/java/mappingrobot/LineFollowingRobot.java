@@ -42,30 +42,22 @@ public class LineFollowingRobot implements Robot {
     this.pilot = new MovePilot(chassis);
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override public Direction getCurrentDirectionState() {
     return this.activeDirectionState;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override public void setDirectionState(Direction state) {
     this.activeDirectionState = state;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override public int getTurnRadius() {
     return this.turnRadius;
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override public void setTurnRadius(int turnRadius) {
     if (turnRadius < 1 || turnRadius > 100) {
       throw new IllegalArgumentException
@@ -75,9 +67,7 @@ public class LineFollowingRobot implements Robot {
     }
   }
 
-  /**
-   * {@inheritDoc}
-   */
+  /** {@inheritDoc} */
   @Override public void update() {
       switch (this.activeDirectionState) {
         case FORWARD: lineFollower.steer(0); break;

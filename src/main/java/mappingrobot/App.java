@@ -16,7 +16,6 @@ import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
-import lejos.hardware.port.Port;
 import lejos.utility.Stopwatch;
 
 import lejos.hardware.Button;
@@ -34,10 +33,8 @@ public class App {
     /*
     * Oppsett av fargesensorer.
     */
-    Port mainSensorPort = brick.getPort("S2");
-    Port correctionSensorPort = brick.getPort("S4");
-    ColorSensor mainSensor = new ColorSensor(mainSensorPort);
-    ColorSensor correctionSensor = new ColorSensor(correctionSensorPort);
+    ColorSensor mainSensor = new ColorSensor("S2");
+    ColorSensor correctionSensor = new ColorSensor("S4");
 
     DistanceMeasure distanceSensor = new Ultrasonic(brick.getPort("S3"));
 
@@ -49,13 +46,15 @@ public class App {
 
     Robot robot = new LineFollowingRobot(robotDescription.wheelOffset, Dimensions.wheelSize);
 
-    do {
-      int knapp = Button.waitForAnyPress();
+    int key;
 
-      if (knapp == Button.ID_RIGHT) {
-      } else if (knapp == Button.ID_LEFT) {
+    do {
+      key = Button.waitForAnyPress();
+
+      if (key == Button.ID_RIGHT) {
+      } else if (key == Button.ID_LEFT) {
         start(mainSensor, correctionSensor, robot);
-      } else if (knapp == Button.ID_DOWN) {
+      } else if (key == Button.ID_DOWN) {
         mainSensor.printFargeID();
         correctionSensor.printFargeID();
       }

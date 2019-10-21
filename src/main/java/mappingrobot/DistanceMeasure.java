@@ -13,7 +13,7 @@
  package team11.mappingrobot;
 
  public interface DistanceMeasure {
-   
+
    /**
     * Get distance to the closest object within range.
     * @return float Distance in cm.
@@ -24,5 +24,5 @@
     * Checks whether there is any object within range.
     * @return boolean True if the sensor can see an object.
     */
-   public boolean canSeeObject();
+   public boolean objectInRange();
  }

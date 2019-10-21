@@ -9,7 +9,7 @@
  import lejos.robotics.chassis.WheeledChassis.Modeler;
  import lejos.robotics.RegulatedMotor;
 
- public class LejosApiBugs {
+ public abstract class LejosApiBugs {
 
    /** Provides a modeler object to model a Holonomic motorized wheel on the chassis
     * @param motor
