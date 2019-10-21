@@ -12,12 +12,12 @@
 
 package team11.mappingrobot;
 
-import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.Chassis;
+import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
 import lejos.hardware.motor.Motor;
-import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.navigation.LineFollowingMoveController;
+import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.RegulatedMotor;
 
 public class LineFollowingRobot implements Robot {
@@ -31,10 +31,10 @@ public class LineFollowingRobot implements Robot {
   private int turnRadius = 90;
 
   /**
-  * Constructs a Robot with differential steering.
-  * @param wheelOffset Wheel offset from the X axis.
-  * @param wheelSize Wheel diameter in cm.
-  */
+   * Constructs a Robot with differential steering.
+   * @param wheelOffset Wheel offset from the X axis.
+   * @param wheelSize Wheel diameter in cm.
+   */
   LineFollowingRobot(float wheelOffset, double wheelSize) {
     this.wheel1 = LejosApiBugs.modelWheel(Motor.A, wheelSize).offset(-wheelOffset);
     this.wheel2 = LejosApiBugs.modelWheel(Motor.B, wheelSize).offset(wheelOffset);

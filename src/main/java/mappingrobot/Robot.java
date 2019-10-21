@@ -12,12 +12,12 @@
 
 package team11.mappingrobot;
 
-import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.Chassis;
+import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
 import lejos.hardware.motor.Motor;
-import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.navigation.LineFollowingMoveController;
+import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.RegulatedMotor;
 
 public interface Robot {

@@ -12,11 +12,11 @@
 
 package team11.mappingrobot;
 
-import lejos.hardware.sensor.NXTUltrasonicSensor;
-import lejos.robotics.SampleProvider;
-import lejos.hardware.port.Port;
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.NXTUltrasonicSensor;
+import lejos.robotics.SampleProvider;
 
 class Ultrasonic implements DistanceMeasure {
   private SampleProvider distance;

@@ -12,13 +12,13 @@
 
 package team11.mappingrobot;
 
-import lejos.hardware.sensor.EV3ColorSensor;
-import lejos.robotics.SampleProvider;
-import lejos.hardware.port.Port;
-import lejos.robotics.Color;
-import lejos.hardware.Button;
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
+import lejos.hardware.Button;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.robotics.Color;
+import lejos.robotics.SampleProvider;
 
 public class ColorSensor {
     private EV3ColorSensor sensor;
