@@ -25,30 +25,56 @@ public class Robot {
   private Wheel wheel2;
   private Chassis chassis;
   private MovePilot pilot;
-  private Direction currentDirectionState;
+  private Direction currentDirectionState = Direction.STOP;
   private LineFollowingMoveController lineFollower;
 
-  public enum Mode {
+  public static enum Mode {
+
+    /** Line following type of navigation */
     LINE_FOLLOWING
+  }
+
+  public static enum Direction {
+
+      /** Turn right while driving */
+      RIGHT,
+
+      /** Stop, then turn right */
+      SHARP_RIGHT,
+
+      /** Turn left while driving */
+      LEFT,
+
+      /** Stop, then turn left */
+      SHARP_LEFT,
+
+      /** Go forward */
+      FORWARD,
+
+      /** Drive or turn backwards */
+      REVERSE,
+
+      /** Stop */
+      STOP
   }
 
   Mode mode;
 
   /**
-  * Konstruerer en ny Robot, med differensiell styring.
-  * @param wheelOffset Avstand fra robotens senter langs X-aksen til hjulene.
+  * Constructs a Robot with differential steering.
+  * @param wheelOffset Wheel offset from the X axis.
+  * @param wheelSize Wheel diameter in cm.
   */
-  Robot(float wheelOffset) {
-    this.wheel1 = LejosApiBugs.modelWheel(Motor.A, Dimensions.wheelSize).offset(-wheelOffset);
-    this.wheel2 = LejosApiBugs.modelWheel(Motor.B, Dimensions.wheelSize).offset(wheelOffset);
+  Robot(float wheelOffset, double wheelSize) {
+    this.wheel1 = LejosApiBugs.modelWheel(Motor.A, wheelSize).offset(-wheelOffset);
+    this.wheel2 = LejosApiBugs.modelWheel(Motor.B, wheelSize).offset(wheelOffset);
     this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
     this.pilot = new MovePilot(chassis);
-    this.currentDirectionState = Direction.STOP;
     this.mode = Mode.LINE_FOLLOWING;
   }
 
   /**
-  * Setter styringsmodus på roboten. Denne kan endres i runtime, og vil påvirke robotens bevegelser.
+  * Sets the mode for steering.
   * @param mode Modus av typen {@link Robot.Mode}
   */
   public void setMode(Mode mode) {

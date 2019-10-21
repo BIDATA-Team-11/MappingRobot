@@ -22,6 +22,7 @@ import lejos.utility.Stopwatch;
 import lejos.hardware.Button;
 
 public class App {
+
   /**
   * Main-metode for klienten. Her får man valget om å printe ut de fargene sensorene ser, kalibrere fargesensorene eller å få roboten til å kjøre.
   * @param args Argumenter blir ignorert. Heh.
@@ -46,25 +47,18 @@ public class App {
 
     RobotDescription robotDescription = new RobotDescription();
 
-    Robot robot = new Robot(robotDescription.wheelOffset);
+    Robot robot = new Robot(robotDescription.wheelOffset, Dimensions.wheelSize);
 
     do {
       int knapp = Button.waitForAnyPress();
 
       if (knapp == Button.ID_RIGHT) {
       } else if (knapp == Button.ID_LEFT) {
-        robot = new Robot(robotDescription.wheelOffset); // true: kalkulerte hastigheter, false: hardkoda hastigheter.
         start(mainSensor, correctionSensor, robot);
       } else if (knapp == Button.ID_DOWN) {
         mainSensor.printFargeID();
         correctionSensor.printFargeID();
-      } else if (knapp == Button.ID_UP) {
-        robot = new Robot(robotDescription.wheelOffset); // true: kalkulerte hastigheter, false: hardkoda hastigheter.
-        start(mainSensor, correctionSensor, robot);
-      } else if (knapp == Button.ID_ENTER) {
-        robot = new Robot(robotDescription.wheelOffset); // true: kalkulerte hastigheter, false: hardkoda hastigheter.
-        start(mainSensor, correctionSensor, robot);
-      }
+      } 
     } while (true);
     /*
     * TODO: Bruker while-løkke her så det kan gjøres mulig å legge inn en escape i hovedløkka,
@@ -99,22 +93,22 @@ public class App {
     */
     while (true) {
       if (mainSensor.lostLine()) {
-        if (robot.getCurrentDirectionState() == Direction.FORWARD || correctionSensor.hasLine()) {
+        if (robot.getCurrentDirectionState() == Robot.Direction.FORWARD || correctionSensor.hasLine()) {
           if (correctionSensor.hasLine()) {
-            robot.setDirectionState(Direction.RIGHT);
+            robot.setDirectionState(Robot.Direction.RIGHT);
           } else if (!lineIsBetweenSensors) {
-            robot.setDirectionState(Direction.LEFT);
+            robot.setDirectionState(Robot.Direction.LEFT);
           }
         }
       }
 
       if (mainSensor.lostLine() && correctionSensor.hasLine()) {
-        robot.setDirectionState(Direction.RIGHT);
+        robot.setDirectionState(Robot.Direction.RIGHT);
         lineIsBetweenSensors = true;
       }
 
       if (mainSensor.hasLine()) {
-        robot.setDirectionState(Direction.FORWARD);
+        robot.setDirectionState(Robot.Direction.FORWARD);
         lineIsBetweenSensors = false;
       }
 
