@@ -1,5 +1,5 @@
 /**
- * Klasse for alle styringsfunksjoner for roboten. Det er meningen at denne skal være fleksibel og kan brukes til forskjellige typer roboter.
+ * Interface for a generic wheeled robot.
  * @author Stian Selvåg
  * @author Herman Aagaard
  * @author Henrik Hafsø
@@ -20,20 +20,7 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.navigation.LineFollowingMoveController;
 import lejos.robotics.RegulatedMotor;
 
-public class Robot {
-  private Wheel wheel1;
-  private Wheel wheel2;
-  private Chassis chassis;
-  private MovePilot pilot;
-  private Direction currentDirectionState = Direction.STOP;
-  private LineFollowingMoveController lineFollower;
-
-  public static enum Mode {
-
-    /** Line following type of navigation */
-    LINE_FOLLOWING
-  }
-
+public interface Robot {
   public static enum Direction {
 
       /** Turn right while driving */
@@ -58,55 +45,44 @@ public class Robot {
       STOP
   }
 
-  Mode mode;
+  /**
+   * Get current direction. Not necessarily active if {@link #update} has not
+   * been called since last call to {@link #setDirectionState}.
+   * @return Current direction state.
+   * @see #setDirectionState
+   * @see #update
+   */
+  public Direction getCurrentDirectionState();
 
   /**
-  * Constructs a Robot with differential steering.
-  * @param wheelOffset Wheel offset from the X axis.
-  * @param wheelSize Wheel diameter in cm.
-  */
-  Robot(float wheelOffset, double wheelSize) {
-    this.wheel1 = LejosApiBugs.modelWheel(Motor.A, wheelSize).offset(-wheelOffset);
-    this.wheel2 = LejosApiBugs.modelWheel(Motor.B, wheelSize).offset(wheelOffset);
-    this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
-    this.pilot = new MovePilot(chassis);
-    this.mode = Mode.LINE_FOLLOWING;
-  }
+   * Set new direction. Will not become active before {@link #update} is called.
+   * @param state New direction
+   * @see #update
+   */
+  public void setDirectionState(Direction state);
 
   /**
-  * Sets the mode for steering.
-  * @param mode Modus av typen {@link Robot.Mode}
-  */
-  public void setMode(Mode mode) {
-    this.mode = mode;
-  }
+   * Get current turn radius. Turn radius is given as an int in the range
+   * [1, 100]. Higher number means a sharper turn.
+   * @return int Returns the current turn radius.
+   * @see #setTurnRadius
+   */
+  public int getTurnRadius();
 
   /**
-  * Henter gjeldende styringsmodus.
-  * @return Gjeldende styringsmodus.
-  */
-  public Direction getCurrentDirectionState() {
-    return this.currentDirectionState;
-  }
+   * Set current turn radius. Turn radius is given as an int in the range
+   * [1, 100]. Higher number means a sharper turn.
+   * @param turnRadius New turn radius. Must be an int in the range [1, 100].
+   * @throws IllegalArgumentException Throws an exception when turnRadius is
+   * out of range ([1, 100]).
+   * @see #setTurnRadius
+   */
+  public void setTurnRadius(int turnRadius);
 
   /**
-  * Setter retning på roboten. Trer ikke i kraft før {@link #update} kalles.
-  * @param state Retning av typen Direction
-  */
-  public void setDirectionState(Direction state) {
-    this.currentDirectionState = state;
-  }
-
-  /**
-  * Nye instrukser siten forrige update() trer i kraft.
-  */
-  public void update() {
-    if (mode == Mode.LINE_FOLLOWING) {
-      switch (currentDirectionState) {
-        case FORWARD: lineFollower.steer(0); break;
-        case LEFT: lineFollower.steer(-90); break;
-        case RIGHT: lineFollower.steer(90); break;
-      }
-    }
-  }
+   * If set direction has changed, activate it.
+   * @see #setDirectionState
+   * @see getCurrentDirectionState
+   */
+  public void update();
 }

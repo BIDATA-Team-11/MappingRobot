@@ -5,16 +5,8 @@ import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
 import lejos.robotics.navigation.MoveController;
 
-class RobotDescription {
-  private Brick brick;
-  public Port ultraSonicPort;
-  public final double wheelSize;
-  public final float wheelOffset;
-
-  RobotDescription() {
-    this.brick = BrickFinder.getDefault();
-    this.ultraSonicPort = brick.getPort("S2");
-    this.wheelSize = MoveController.WHEEL_SIZE_EV3;
-    this.wheelOffset = 7.0f;
-  }
+public final class RobotDescription {
+  public static final String ultraSonicPort = "S2";
+  public static final double wheelSize = MoveController.WHEEL_SIZE_EV3;
+  public static final float wheelOffset = 7.0f;
 }

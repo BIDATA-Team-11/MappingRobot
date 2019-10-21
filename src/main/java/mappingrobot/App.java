@@ -47,7 +47,7 @@ public class App {
 
     RobotDescription robotDescription = new RobotDescription();
 
-    Robot robot = new Robot(robotDescription.wheelOffset, Dimensions.wheelSize);
+    Robot robot = new LineFollowingRobot(robotDescription.wheelOffset, Dimensions.wheelSize);
 
     do {
       int knapp = Button.waitForAnyPress();
@@ -58,7 +58,7 @@ public class App {
       } else if (knapp == Button.ID_DOWN) {
         mainSensor.printFargeID();
         correctionSensor.printFargeID();
-      } 
+      }
     } while (true);
     /*
     * TODO: Bruker while-løkke her så det kan gjøres mulig å legge inn en escape i hovedløkka,

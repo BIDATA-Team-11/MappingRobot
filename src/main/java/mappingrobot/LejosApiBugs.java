@@ -1,4 +1,5 @@
-/** Metoder som må hentes inn manuelt pga bugs i Lejos API.
+/**
+ * Methods that for some reason are missing from the current version of Lejos API.
  * @author Lejos API
  * @version 1.0.0
  */
@@ -9,6 +10,7 @@
  import lejos.robotics.RegulatedMotor;
 
  public class LejosApiBugs {
+
    /** Provides a modeler object to model a Holonomic motorized wheel on the chassis
     * @param motor
     * The regulated motor that drives the wheel
