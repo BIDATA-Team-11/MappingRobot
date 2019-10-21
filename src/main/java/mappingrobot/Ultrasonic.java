@@ -15,16 +15,31 @@ package team11.mappingrobot;
 import lejos.hardware.sensor.NXTUltrasonicSensor;
 import lejos.robotics.SampleProvider;
 import lejos.hardware.port.Port;
+import lejos.hardware.Brick;
+import lejos.hardware.BrickFinder;
 
 class Ultrasonic implements DistanceMeasure {
   private SampleProvider distance;
   private float[] sample;
 
   /**
-   * @param port The physical port where the sensor is connected.
+   * Construct new ultrasonic object using provided EV3 brick.
+   * @param port Physical port where the sensor is connected.
    */
-  Ultrasonic(Port port) {
-    this.distance = new NXTUltrasonicSensor(port).getDistanceMode();
+  Ultrasonic(String port) {
+    Brick brick = BrickFinder.getDefault();
+    Port physicalPort = brick.getPort(port);
+    this.distance = new NXTUltrasonicSensor(physicalPort).getDistanceMode();
+    this.sample[this.distance.sampleSize()] = 0;
+  }
+
+  /**
+   * Construct new ultrasonic object using default EV3 brick.
+   * @param port Physical port where the sensor is connected.
+   */
+  Ultrasonic(String port, Brick brick) {
+    Port physicalPort = brick.getPort(port);
+    this.distance = new NXTUltrasonicSensor(physicalPort).getDistanceMode();
     this.sample[this.distance.sampleSize()] = 0;
   }
 

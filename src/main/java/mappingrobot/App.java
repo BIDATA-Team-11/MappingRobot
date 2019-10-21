@@ -28,7 +28,6 @@ public class App {
   * @throws Exception Gir EV3 mulighet til å catche eventuelle feil.
   */
   public static void main (String[] args) throws Exception {
-    Brick brick = BrickFinder.getDefault();
 
     /*
     * Oppsett av fargesensorer.
@@ -36,7 +35,7 @@ public class App {
     ColorSensor mainSensor = new ColorSensor("S2");
     ColorSensor correctionSensor = new ColorSensor("S4");
 
-    DistanceMeasure distanceSensor = new Ultrasonic(brick.getPort("S3"));
+    DistanceMeasure distanceSensor = new Ultrasonic("S3");
 
     System.out.println("2.0.0-awesomebot");
     System.out.println("");
