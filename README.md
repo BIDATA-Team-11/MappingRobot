@@ -1,2 +1,2 @@
 # MappingRobot
-Group project at NTNU, 2019
+Team project at NTNU, 2019
