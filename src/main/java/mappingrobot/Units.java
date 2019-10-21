@@ -1,5 +1,5 @@
 /**
- * Enheter som kan brukes for å forenkle lesbarhet. En kan for eksempel bruke 0.4*{@link .metres} eller {@link .minutes}.
+ * Unit definitions for more readable code. You could use i.e. 0.4*{@link .metres} or {@link .minutes}.
  * @author Stian Selvåg
  * @author Herman Aagaard
  * @author Henrik Hafsø
@@ -13,21 +13,21 @@
  package team11.mappingrobot;
 
 public class Units {
-  /** Millimeter */
+  /** Millimetre */
   public static final float millimetres = 0.1f;
 
-  /** Centimeter */
+  /** Centimetre */
   public static final float centimetres = 1.0f;
 
-  /** Alias for centimeter */
+  /** Alias for centimetre */
   public static final float cm = 1.0f;
 
-  /** Meter */
+  /** Metre */
   public static final float metres = 100.0f;
 
-  /** Sekund */
+  /** Second */
   public static final float seconds = 1000.0f; // 1000 millisekund
 
-  /** Minutt */
+  /** Minute */
   public static final float miutes = 60000.0f; // 60000 millisekund
 }
