@@ -13,7 +13,6 @@
 package team11.mappingrobot;
 
 import lejos.robotics.RegulatedMotor;
-import lejos.robotics.SampleProvider;
 import lejos.utility.Stopwatch;
 
 import lejos.hardware.Button;
