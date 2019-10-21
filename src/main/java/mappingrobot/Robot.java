@@ -50,7 +50,7 @@ public interface Robot {
    * @return Current direction state.
    * @see #setDirectionState
    */
-  public Direction getCurrentDirectionState();
+  public Direction getActiveDirectionState();
 
   /**
    * Set new direction. Will not become active before {@link #update} is called.

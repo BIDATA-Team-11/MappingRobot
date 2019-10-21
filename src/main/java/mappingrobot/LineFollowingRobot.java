@@ -30,23 +30,26 @@ public class LineFollowingRobot implements Robot {
   private LineFollowingMoveController lineFollower;
   private int turnRadius = 90;
   private boolean lineIsBetweenSensors = false;
-  private ColorSensor mainSensor = new ColorSensor("S2");
-  private ColorSensor correctionSensor = new ColorSensor("S4");
+  private ColorSensor mainSensor;
+  private ColorSensor correctionSensor;
 
   /**
    * Constructs a Robot with differential steering.
    * @param wheelOffset Wheel offset from the X axis.
    * @param wheelSize Wheel diameter in cm.
    */
-  LineFollowingRobot(float wheelOffset, double wheelSize) {
+  LineFollowingRobot(float wheelOffset, double wheelSize,
+  String mainSensor, String correctionSensor) {
     this.wheel1 = LejosApiBugs.modelWheel(Motor.A, wheelSize).offset(-wheelOffset);
     this.wheel2 = LejosApiBugs.modelWheel(Motor.B, wheelSize).offset(wheelOffset);
     this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
     this.pilot = new MovePilot(chassis);
+    this.mainSensor = new ColorSensor("S2");
+    this.correctionSensor = new ColorSensor("S4");
   }
 
   /** {@inheritDoc} */
-  @Override public Direction getCurrentDirectionState() {
+  @Override public Direction getActiveDirectionState() {
     return this.activeDirectionState;
   }
 
@@ -82,9 +85,16 @@ public class LineFollowingRobot implements Robot {
     }
   }
 
-  public Direction updateDirection() {
+  /**
+   * Set direction to follow line based on color sensor inputs. Call
+   * {@link #update} for the changes to take effect.
+   * @return boolean True if direction has been updated.
+   * @see #update
+   */
+  public boolean updateDirection() {
     if (mainSensor.lostLine()) {
-      if (this.getCurrentDirectionState() == Direction.FORWARD || this.correctionSensor.hasLine()) {
+      if (this.getActiveDirectionState() ==
+      Direction.FORWARD || this.correctionSensor.hasLine()) {
         if (this.correctionSensor.hasLine()) {
           this.setDirectionState(Direction.RIGHT);
         } else if (!lineIsBetweenSensors) {
@@ -103,7 +113,8 @@ public class LineFollowingRobot implements Robot {
       lineIsBetweenSensors = false;
     }
 
-    return this.nextDirectionState;
+    return this.nextDirectionState == this.getActiveDirectionState() ?
+      false : true;
   }
 
   /** {@inheritDoc} */
