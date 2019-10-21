@@ -14,8 +14,6 @@ package team11.mappingrobot;
 
 import lejos.robotics.RegulatedMotor;
 import lejos.robotics.SampleProvider;
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
 import lejos.utility.Stopwatch;
 
 import lejos.hardware.Button;
