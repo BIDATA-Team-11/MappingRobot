@@ -46,11 +46,9 @@ public interface Robot {
   }
 
   /**
-   * Get current direction. Not necessarily active if {@link #update} has not
-   * been called since last call to {@link #setDirectionState}.
+   * Get current direction state.
    * @return Current direction state.
    * @see #setDirectionState
-   * @see #update
    */
   public Direction getCurrentDirectionState();
 

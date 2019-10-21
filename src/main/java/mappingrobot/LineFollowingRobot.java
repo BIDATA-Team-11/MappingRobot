@@ -49,7 +49,7 @@ public class LineFollowingRobot implements Robot {
 
   /** {@inheritDoc} */
   @Override public void setDirectionState(Direction state) {
-    this.activeDirectionState = state;
+    this.newDirectionState = state;
   }
 
   /**
@@ -81,10 +81,13 @@ public class LineFollowingRobot implements Robot {
 
   /** {@inheritDoc} */
   @Override public void update() {
+    if(this.activeDirectionState != this.newDirectionState) {
+      this.activeDirectionState = this.newDirectionState;
       switch (this.activeDirectionState) {
         case FORWARD: lineFollower.steer(0); break;
         case LEFT: lineFollower.steer(-this.turnRadius); break;
         case RIGHT: lineFollower.steer(this.turnRadius); break;
       }
+    }
   }
 }
