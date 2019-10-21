@@ -52,13 +52,25 @@ public class LineFollowingRobot implements Robot {
     this.activeDirectionState = state;
   }
 
-  /** {@inheritDoc} */
-  @Override public int getTurnRadius() {
+  /**
+   * Get current turn radius. Turn radius is given as an int in the range
+   * [1, 100]. Higher number means a sharper turn.
+   * @return int Returns the current turn radius.
+   * @see #setTurnRadius
+   */
+  public int getTurnRadius() {
     return this.turnRadius;
   }
 
-  /** {@inheritDoc} */
-  @Override public void setTurnRadius(int turnRadius) {
+  /**
+   * Set current turn radius. Turn radius is given as an int in the range
+   * [1, 100]. Higher number means a sharper turn.
+   * @param turnRadius New turn radius. Must be an int in the range [1, 100].
+   * @throws IllegalArgumentException Throws an exception when turnRadius is
+   * out of range ([1, 100]).
+   * @see #getTurnRadius
+   */
+  public void setTurnRadius(int turnRadius) {
     if (turnRadius < 1 || turnRadius > 100) {
       throw new IllegalArgumentException
         ("turnRadius must be an int in the range [1, 100]");

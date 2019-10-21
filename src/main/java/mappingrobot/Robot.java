@@ -62,24 +62,6 @@ public interface Robot {
   public void setDirectionState(Direction state);
 
   /**
-   * Get current turn radius. Turn radius is given as an int in the range
-   * [1, 100]. Higher number means a sharper turn.
-   * @return int Returns the current turn radius.
-   * @see #setTurnRadius
-   */
-  public int getTurnRadius();
-
-  /**
-   * Set current turn radius. Turn radius is given as an int in the range
-   * [1, 100]. Higher number means a sharper turn.
-   * @param turnRadius New turn radius. Must be an int in the range [1, 100].
-   * @throws IllegalArgumentException Throws an exception when turnRadius is
-   * out of range ([1, 100]).
-   * @see #setTurnRadius
-   */
-  public void setTurnRadius(int turnRadius);
-
-  /**
    * If set direction has changed, activate it.
    * @see #setDirectionState
    * @see #getCurrentDirectionState
