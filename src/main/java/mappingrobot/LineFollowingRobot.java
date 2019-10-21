@@ -71,11 +71,11 @@ public class LineFollowingRobot implements Robot {
    * @see #getTurnRadius
    */
   public void setTurnRadius(int turnRadius) {
-    if (turnRadius < 1 || turnRadius > 100) {
+    if (turnRadius > 1 || turnRadius < 100) {
+      this.turnRadius = turnRadius;
+    } else {
       throw new IllegalArgumentException
         ("turnRadius must be an int in the range [1, 100]");
-    } else {
-      this.turnRadius = turnRadius;
     }
   }
 
