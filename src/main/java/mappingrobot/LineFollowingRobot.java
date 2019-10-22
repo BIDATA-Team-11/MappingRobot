@@ -21,17 +21,17 @@ import lejos.robotics.navigation.MovePilot;
 import lejos.robotics.RegulatedMotor;
 
 public class LineFollowingRobot implements Robot {
-  private Wheel wheel1;
-  private Wheel wheel2;
-  private Chassis chassis;
-  private MovePilot pilot;
-  private Direction activeDirectionState = Direction.STOP;
-  private Direction nextDirectionState = Direction.STOP;
-  private LineFollowingMoveController lineFollower;
-  private int turnRadius = 90;
   private boolean lineIsBetweenSensors = false;
+  private Chassis chassis;
   private ColorSensor mainSensor;
   private ColorSensor correctionSensor;
+  private Direction activeDirectionState = Direction.STOP;
+  private Direction nextDirectionState = Direction.STOP;
+  private int turnRadius = 90;
+  private LineFollowingMoveController lineFollower;
+  private MovePilot pilot;
+  private Wheel wheel1;
+  private Wheel wheel2;
 
   /**
    * Constructs a Robot with differential steering.
@@ -40,9 +40,12 @@ public class LineFollowingRobot implements Robot {
    */
   LineFollowingRobot(float wheelOffset, double wheelSize,
   String mainSensor, String correctionSensor) {
-    this.wheel1 = LejosApiBugs.modelWheel(Motor.A, wheelSize).offset(-wheelOffset);
-    this.wheel2 = LejosApiBugs.modelWheel(Motor.B, wheelSize).offset(wheelOffset);
-    this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 }, WheeledChassis.TYPE_DIFFERENTIAL);
+    this.wheel1 =
+      LejosApiBugs.modelWheel(Motor.A, wheelSize).offset(-wheelOffset);
+    this.wheel2 =
+      LejosApiBugs.modelWheel(Motor.B, wheelSize).offset(wheelOffset);
+    this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 },
+      WheeledChassis.TYPE_DIFFERENTIAL);
     this.pilot = new MovePilot(chassis);
     this.mainSensor = new ColorSensor("S2");
     this.correctionSensor = new ColorSensor("S4");
