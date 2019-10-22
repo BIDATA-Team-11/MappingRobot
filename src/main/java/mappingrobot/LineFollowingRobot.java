@@ -47,8 +47,8 @@ public class LineFollowingRobot implements Robot {
     this.chassis = new WheeledChassis(new Wheel[] { wheel1, wheel2 },
       WheeledChassis.TYPE_DIFFERENTIAL);
     this.pilot = new MovePilot(chassis);
-    this.mainSensor = new ColorSensor("S2");
-    this.correctionSensor = new ColorSensor("S4");
+    this.mainSensor = new ColorSensor(mainSensor);
+    this.correctionSensor = new ColorSensor(correctionSensor);
   }
 
   /** {@inheritDoc} */

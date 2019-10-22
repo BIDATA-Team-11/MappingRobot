@@ -38,7 +38,9 @@ public class App {
 
     RobotDescription robotDescription = new RobotDescription();
 
-    Robot robot = new LineFollowingRobot(robotDescription.wheelOffset, RobotDescription.wheelSize);
+    Robot robot = new LineFollowingRobot(
+      robotDescription.wheelOffset, RobotDescription.wheelSize,
+      "S1", "S4");
 
     int key;
 
