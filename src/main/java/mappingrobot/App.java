@@ -25,24 +25,15 @@ public class App {
    */
   public static void main (String[] args) throws Exception {
 
-    /*
-     * Oppsett av fargesensorer.
-     */
-
-
-    DistanceMeasure distanceSensor = new Ultrasonic("S3");
-
     System.out.println("2.0.0-awesomebot");
     System.out.println("");
     System.out.println("Enter:  Start");
 
+    int key;
     RobotDescription robotDescription = new RobotDescription();
-
     Robot robot = new LineFollowingRobot(
       robotDescription.wheelOffset, RobotDescription.wheelSize,
       "S1", "S4");
-
-    int key;
 
     do {
       key = Button.waitForAnyPress();
@@ -69,23 +60,12 @@ public class App {
   public static void start(Robot robot) {
 
     /*
-     * Flagg som indikerer at linja befinner seg mellom sensorene. Dette løser en del problemer
-     * med hunting ved at vi unngår å svinge tilbake mot venstre så snart korrigeringssensoren
-     * mister linja. Flagget settes med en gang korrigeringssensoren ser linja, og fjernes så
-     * snart hovedsensoren finner linja igjen.
-     */
-
-
-    int button;
-
-    /*
      * "Hovedløkka" i programmet. Denne kjører til vi dreper den.
      *
      * Her ligger logikken som styrer retning - fram, sving til venstre, sving til høyre.
      */
     while (true) {
-
-
+      robot.updateDirection();
       robot.update();
     }
   }
