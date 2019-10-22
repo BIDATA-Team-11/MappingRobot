@@ -10,7 +10,7 @@
  * @version 1.0.0
  */
 
- package team11.mappingrobot;
+package team11.mappingrobot;
 
 public class Units {
   /** Millimetre */
