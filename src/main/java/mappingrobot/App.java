@@ -65,8 +65,9 @@ public class App {
      * Her ligger logikken som styrer retning - fram, sving til venstre, sving til høyre.
      */
     while (true) {
-      robot.updateDirection();
-      robot.update();
+      if (robot.updateDirection()) {
+        robot.update();
+      }
     }
   }
 }
