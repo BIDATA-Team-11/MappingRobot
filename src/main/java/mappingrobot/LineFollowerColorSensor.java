@@ -20,7 +20,7 @@ import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.Color;
 import lejos.robotics.SampleProvider;
 
-public class ColorSensor {
+public class LineFollowerColorSensor {
   private EV3ColorSensor sensor;
 
   /**
@@ -28,7 +28,7 @@ public class ColorSensor {
    * @param port Physical port on EV3.
    * @param brick EV3 brick to use.
    */
-  public ColorSensor(String port, Brick brick) {
+  public LineFollowerColorSensor(String port, Brick brick) {
     Port physicalPort = brick.getPort(port);
     sensor = new EV3ColorSensor(physicalPort);
   }
@@ -37,15 +37,15 @@ public class ColorSensor {
    * Constructs a new color sensor connected to default brick.
    * @param port Physical port on EV3.
    */
-  public ColorSensor(String port) {
+  public LineFollowerColorSensor(String port) {
     Brick brick = BrickFinder.getDefault();
     Port physicalPort = brick.getPort(port);
     sensor = new EV3ColorSensor(physicalPort);
   }
 
   /**
-   * Henter fargeverdi fra sensor.
-   * @return Fargeverdi som tekststreng. Nyttig i testing og debugging.
+   * Get color reading from sensor.
+   * @return String Current color reading as a text string.
    */
   public String getColorIDString() {
     SampleProvider colorSample = this.sensor.getColorIDMode();
