@@ -59,6 +59,9 @@ public class App {
    */
   public static void start(Robot robot) {
 
+    robot.updateDirection();
+    robot.update();
+    
     /*
      * "Hovedløkka" i programmet. Denne kjører til vi dreper den.
      *
