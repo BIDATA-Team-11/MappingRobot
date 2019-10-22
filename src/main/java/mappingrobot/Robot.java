@@ -23,30 +23,30 @@ import lejos.robotics.RegulatedMotor;
 public interface Robot {
   public static enum Direction {
 
-      /** Turn right while driving */
+      /** Turn right while driving. */
       RIGHT,
 
-      /** Stop, then turn right */
+      /** Stop, then turn right. */
       SHARP_RIGHT,
 
-      /** Turn left while driving */
+      /** Turn left while driving. */
       LEFT,
 
-      /** Stop, then turn left */
+      /** Stop, then turn left. */
       SHARP_LEFT,
 
-      /** Go forward */
+      /** Go forward. */
       FORWARD,
 
-      /** Drive or turn backwards */
+      /** Movements are carried out int backwards direction. */
       REVERSE,
 
-      /** Stop */
+      /** Stop. */
       STOP
   }
 
   /**
-   * Get current direction state.
+   * Get active direction state.
    * @return Current direction state.
    * @see #setDirectionState
    */
@@ -54,13 +54,13 @@ public interface Robot {
 
   /**
    * Set new direction. Will not become active before {@link #update} is called.
-   * @param state New direction
+   * @param state New direction.
    * @see #update
    */
   public void setDirectionState(Direction state);
 
   /**
-   * If set direction has changed, activate it.
+   * If set direction has changed, activate it. Does nothing if not.
    * @see #setDirectionState
    * @see #getCurrentDirectionState
    */
