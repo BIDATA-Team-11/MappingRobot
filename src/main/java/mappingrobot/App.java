@@ -30,17 +30,13 @@ public class App {
     System.out.println("Enter:  Start");
 
     int key;
-    RobotDescription robotDescription = new RobotDescription();
-    Robot robot = new LineFollowingRobot(
-      robotDescription.wheelOffset, RobotDescription.wheelSize,
-      "S1", "S4");
 
     do {
       key = Button.waitForAnyPress();
 
       if (key == Button.ID_RIGHT) {
       } else if (key == Button.ID_LEFT) {
-        start(robot);
+        start();
       }
     } while (true);
     /*
@@ -57,11 +53,16 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start(Robot robot) {
+  public static void start() {
+
+    RobotDescription robotDescription = new RobotDescription();
+    Robot robot = new LineFollowingRobot(
+      robotDescription.wheelOffset, RobotDescription.wheelSize,
+      "S1", "S4");
 
     robot.updateDirection();
     robot.update();
-    
+
     /*
      * "Hovedløkka" i programmet. Denne kjører til vi dreper den.
      *

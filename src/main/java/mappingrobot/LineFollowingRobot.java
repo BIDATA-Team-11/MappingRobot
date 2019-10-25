@@ -15,6 +15,7 @@ package team11.mappingrobot;
 import lejos.robotics.chassis.Chassis;
 import lejos.robotics.chassis.Wheel;
 import lejos.robotics.chassis.WheeledChassis;
+import lejos.robotics.Color;
 import lejos.hardware.motor.Motor;
 import lejos.robotics.navigation.LineFollowingMoveController;
 import lejos.robotics.navigation.MovePilot;
@@ -22,6 +23,8 @@ import lejos.robotics.RegulatedMotor;
 
 public class LineFollowingRobot implements Robot {
   private boolean lineIsBetweenSensors = false;
+  private boolean mainSensorHasLine = false;
+  private boolean correctionSensorHasLine = false;
   private Chassis chassis;
   private ColorSensor mainSensor;
   private ColorSensor correctionSensor;
@@ -94,26 +97,29 @@ public class LineFollowingRobot implements Robot {
    * @return boolean True if direction has been updated.
    * @see #update
    */
-  public boolean updateDirection() {
-    if (mainSensor.lostLine()) {
+  @Override public boolean updateDirection() {
+    this.mainSensorHasLine = mainSensor.getColorID() == Color.BLACK;
+    this.correctionSensorHasLine = correctionSensor.getColorID() == Color.BLACK;
+
+    if (!this.mainSensorHasLine) {
       if (this.getActiveDirectionState() ==
-      Direction.FORWARD || this.correctionSensor.hasLine()) {
-        if (this.correctionSensor.hasLine()) {
+      Direction.FORWARD || this.correctionSensorHasLine) {
+        if (this.correctionSensorHasLine) {
           this.setDirectionState(Direction.RIGHT);
-        } else if (!lineIsBetweenSensors) {
+        } else if (!this.lineIsBetweenSensors) {
           this.setDirectionState(Direction.LEFT);
         }
       }
     }
 
-    if (mainSensor.lostLine() && this.correctionSensor.hasLine()) {
+    if (!this.mainSensorHasLine && this.correctionSensorHasLine) {
       this.setDirectionState(Direction.RIGHT);
-      lineIsBetweenSensors = true;
+      this.lineIsBetweenSensors = true;
     }
 
-    if (mainSensor.hasLine()) {
+    if (this.mainSensorHasLine) {
       this.setDirectionState(Direction.FORWARD);
-      lineIsBetweenSensors = false;
+      this.lineIsBetweenSensors = false;
     }
 
     return this.nextDirectionState == this.getActiveDirectionState() ?

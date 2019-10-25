@@ -44,8 +44,19 @@ public class ColorSensor {
   }
 
   /**
-   * Henter fargeverdi fra sensor.
-   * @return Fargeverdi som tekststreng. Nyttig i testing og debugging.
+   * Get RGB color as a float array. TODO: Chect sanity of #fetchSample.
+   * @return float[] containing RGB sample.
+   */
+  public float[] getColorID() {
+    SampleProvider colorSample = this.sensor.getColorIDMode();
+    float[] sample = new float[colorSample.sampleSize()];
+    colorSample.fetchSample(sample, 0);
+    return sample;
+  }
+
+  /**
+   * Get color description as text. Useful for debugging.
+   * @return String description of color.
    */
   public String getColorIDString() {
     SampleProvider colorSample = this.sensor.getColorIDMode();
@@ -64,38 +75,5 @@ public class ColorSensor {
       case Color.BROWN: colorName = "BROWN"; break;
     }
     return colorName;
-  }
-
-  /**
-   * Metode for å se om sensoren ser svart.
-   * @return True hvis sensoren ser svart, false ellers.
-   */
-  public boolean hasLine() {
-    SampleProvider colorSample = this.sensor.getColorIDMode();
-    float[] sample = new float[colorSample.sampleSize()];
-    colorSample.fetchSample(sample, 0);
-    return (int)sample[0] == Color.BLACK ? true : false;
-  }
-
-  /**
-   * Invers av hasLine(). Kun for å gjøre logikk for styring mer lesbar.
-   * @return True hvis sensoren ikke ser svart, false ellers.
-   */
-  public boolean lostLine() {
-    return !this.hasLine();
-  }
-
-  /**
-   * Metode som forteller om sensoren ser noe annet enn svart eller hvitt.
-   * @return boolean Positiv dersom sensoren ser noe annet enn svart eller hvitt.
-   */
-  public boolean notBlackNorWhite() {
-    SampleProvider colorSample = this.sensor.getColorIDMode();
-    float[] sample = new float[colorSample.sampleSize()];
-    colorSample.fetchSample(sample, 0);
-    int color = (int)sample[0];
-    boolean notBlack = color == Color.BLACK ? false : true;
-    boolean notWhite = color != Color.WHITE ? true : false;
-    return notWhite && notBlack ? true : false;
   }
 }

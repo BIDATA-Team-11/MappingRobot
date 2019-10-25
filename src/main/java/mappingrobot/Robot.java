@@ -60,6 +60,14 @@ public interface Robot {
   public void setDirectionState(Direction state);
 
   /**
+   * Update direction based on sensor input or other implementation specific
+   * criteria. Call {@link #update} for the changes to take effect.
+   * @return boolean True if direction has been updated.
+   * @see #update
+   */
+  public boolean updateDirection();
+
+  /**
    * If set direction has changed, activate it. Does nothing if not.
    * @see #setDirectionState
    * @see #getCurrentDirectionState
