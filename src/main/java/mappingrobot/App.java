@@ -25,53 +25,5 @@ public class App {
    */
   public static void main (String[] args) throws Exception {
 
-    System.out.println("2.0.0-awesomebot");
-    System.out.println("");
-    System.out.println("Enter:  Start");
-
-    int key;
-
-    do {
-      key = Button.waitForAnyPress();
-
-      if (key == Button.ID_RIGHT) {
-      } else if (key == Button.ID_LEFT) {
-        start();
-      }
-    } while (true);
-    /*
-    * TODO: Bruker while-løkke her så det kan gjøres mulig å legge inn en escape i hovedløkka,
-    *       sånn at det kan bli mulig å stoppe og starte roboten uten å drepe programmet.
-    */
-  }
-
-  /**
-   * Starter selve legoroboten.
-   * @param mainSensor Hovedfargesensor. Står midt på fronten på roboten..
-   * @param correctionSensor Korrigeringssensor. Står til høyre for hovedfargesensor.
-   * @param robot Hjelpeklasse for motorene.
-   * @see ColorSensor
-   * @see Robot
-   */
-  public static void start() {
-
-    RobotDescription robotDescription = new RobotDescription();
-    Robot robot = new LineFollowingRobot(
-      robotDescription.wheelOffset, RobotDescription.wheelSize,
-      "S1", "S4");
-
-    robot.updateDirection();
-    robot.update();
-
-    /*
-     * "Hovedløkka" i programmet. Denne kjører til vi dreper den.
-     *
-     * Her ligger logikken som styrer retning - fram, sving til venstre, sving til høyre.
-     */
-    while (true) {
-      if (robot.updateDirection()) {
-        robot.update();
-      }
-    }
   }
 }
