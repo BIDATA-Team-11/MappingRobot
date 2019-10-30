@@ -12,7 +12,6 @@ plugins {
 
     // Apply the application plugin to add support for building a CLI application
     id 'application'
-
     // LejOS
     id "com.github.bdeneuter.mindstorms.ev3" version "1.2.3"
 }
@@ -37,12 +36,12 @@ dependencies {
 
 application {
     // Define the main class for the application
-    mainClassName = 'team11.mappingrobot.App'
+    mainClassName = 'mappingrobot.App'
 }
 
 mindstorms {
     // Your Java main class (the class with the method: public static void main(String ... args))
-    main = 'team11.mappingrobot.App'
+    main = 'mappingrobot.App'
 
     // Optional: The IP address from the EV3 brick. Default value is 10.0.1.1
     ip = '10.0.1.1'

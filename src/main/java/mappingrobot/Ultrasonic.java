@@ -1,3 +1,11 @@
+package mappingrobot;
+
+import lejos.hardware.Brick;
+import lejos.hardware.BrickFinder;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.NXTUltrasonicSensor;
+import lejos.robotics.SampleProvider;
+
 /**
  * NXTUltrasonicSensor implementation of the DistanceMeasure interface.
  * @author Stian Selvåg
@@ -9,15 +17,6 @@
  * @author Gruppe 11, dataingeniør NTNU, første semester.
  * @version 1.0.0
  */
-
-package team11.mappingrobot;
-
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.port.Port;
-import lejos.hardware.sensor.NXTUltrasonicSensor;
-import lejos.robotics.SampleProvider;
-
 class Ultrasonic implements DistanceMeasure {
   private SampleProvider distance;
   private float[] sample;
@@ -44,13 +43,13 @@ class Ultrasonic implements DistanceMeasure {
   }
 
   /** {@inheritDoc} */
-  @Override public boolean objectInRange() {
+  @Override 
+  public boolean objectInRange() {
     this.distance.fetchSample(this.sample, 0);
     return this.sample[0] != Float.POSITIVE_INFINITY;
   }
 
   /** {@inheritDoc} */
-  @Override public float getDistance() {
-    return this.sample[0];
-  }
+  @Override 
+  public float getDistance() { return this.sample[0]; }
 }

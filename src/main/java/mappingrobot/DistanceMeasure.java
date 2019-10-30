@@ -1,3 +1,5 @@
+package mappingrobot;
+
 /**
  * Interface for å måle avstand til objekter.
  * @author Stian Selvåg
@@ -9,20 +11,17 @@
  * @author Gruppe 11, dataingeniør NTNU, første semester.
  * @version 1.0.0
  */
+public interface DistanceMeasure {
 
- package team11.mappingrobot;
+  /**
+   * Get distance to the closest object within range.
+   * @return float Distance in cm.
+   */
+  public float getDistance();
 
- public interface DistanceMeasure {
-
-   /**
-    * Get distance to the closest object within range.
-    * @return float Distance in cm.
-    */
-   public float getDistance();
-
-   /**
-    * Checks whether there is any object within range.
-    * @return boolean True if the sensor can see an object.
-    */
-   public boolean objectInRange();
- }
+  /**
+   * Checks whether there is any object within range.
+   * @return boolean True if the sensor can see an object.
+   */
+  public boolean objectInRange();
+}

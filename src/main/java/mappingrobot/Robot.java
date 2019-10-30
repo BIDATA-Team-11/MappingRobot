@@ -1,3 +1,13 @@
+package mappingrobot;
+
+import lejos.robotics.chassis.Chassis;
+import lejos.robotics.chassis.Wheel;
+import lejos.robotics.chassis.WheeledChassis;
+import lejos.hardware.motor.Motor;
+import lejos.robotics.navigation.LineFollowingMoveController;
+import lejos.robotics.navigation.MovePilot;
+import lejos.robotics.RegulatedMotor;
+
 /**
  * Interface for a generic wheeled robot.
  * @author Stian Selvåg
@@ -9,40 +19,28 @@
  * @author Gruppe 11, dataingeniør NTNU, første semester.
  * @version 1.0.0
  */
-
-package team11.mappingrobot;
-
-import lejos.robotics.chassis.Chassis;
-import lejos.robotics.chassis.Wheel;
-import lejos.robotics.chassis.WheeledChassis;
-import lejos.hardware.motor.Motor;
-import lejos.robotics.navigation.LineFollowingMoveController;
-import lejos.robotics.navigation.MovePilot;
-import lejos.robotics.RegulatedMotor;
-
 public interface Robot {
   public static enum Direction {
+    /** Turn right while driving. */
+    RIGHT,
 
-      /** Turn right while driving. */
-      RIGHT,
+    /** Stop, then turn right. */
+    SHARP_RIGHT,
 
-      /** Stop, then turn right. */
-      SHARP_RIGHT,
+    /** Turn left while driving. */
+    LEFT,
 
-      /** Turn left while driving. */
-      LEFT,
+    /** Stop, then turn left. */
+    SHARP_LEFT,
 
-      /** Stop, then turn left. */
-      SHARP_LEFT,
+    /** Go forward. */
+    FORWARD,
 
-      /** Go forward. */
-      FORWARD,
+    /** Movements are carried out int backwards direction. */
+    REVERSE,
 
-      /** Movements are carried out int backwards direction. */
-      REVERSE,
-
-      /** Stop. */
-      STOP
+    /** Stop. */
+    STOP
   }
 
   /**
