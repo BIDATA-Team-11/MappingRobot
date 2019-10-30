@@ -1,6 +1,6 @@
 package mappingrobot;
 
-import lejos.hardware.Button;
+//import lejos.hardware.Button;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Stopwatch;
 
@@ -26,7 +26,7 @@ public class App {
     System.out.println("");
     System.out.println("Enter:  Start");
 
-    do {
+    /*do {
       switch (Button.waitForAnyPress()) {
         case Button.ID_RIGHT:
           break;
@@ -36,7 +36,7 @@ public class App {
         default:
           break;
       }
-    } while (true);
+    } while (true); */
     /*
      * TODO: Bruker while-løkke her så det kan gjøres mulig å legge inn en escape i hovedløkka,
      *       sånn at det kan bli mulig å stoppe og starte roboten uten å drepe programmet.
