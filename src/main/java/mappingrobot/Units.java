@@ -1,3 +1,5 @@
+package mappingrobot;
+
 /**
  * Unit definitions for more readable code. You could use i.e. 0.4*{@link .metres} or {@link .minutes}.
  * @author Stian Selvåg
@@ -9,9 +11,6 @@
  * @author Gruppe 11, dataingeniør NTNU, første semester.
  * @version 1.0.0
  */
-
-package team11.mappingrobot;
-
 public class Units {
   /** Millimetre */
   public static final float millimetres = 0.1f;

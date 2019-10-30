@@ -1,3 +1,13 @@
+package mappingrobot;
+
+import lejos.hardware.Brick;
+import lejos.hardware.BrickFinder;
+import lejos.hardware.Button;
+import lejos.hardware.port.Port;
+import lejos.hardware.sensor.EV3ColorSensor;
+import lejos.robotics.Color;
+import lejos.robotics.SampleProvider;
+
 /**
  * Helper class for EV3ColorSensor.
  * @author Stian Selvåg
@@ -9,17 +19,6 @@
  * @author Gruppe 11, dataingeniør NTNU, første semester.
  * @version 2.0.0
  */
-
-package team11.mappingrobot;
-
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.Button;
-import lejos.hardware.port.Port;
-import lejos.hardware.sensor.EV3ColorSensor;
-import lejos.robotics.Color;
-import lejos.robotics.SampleProvider;
-
 public class ColorSensor {
   private EV3ColorSensor sensor;
 

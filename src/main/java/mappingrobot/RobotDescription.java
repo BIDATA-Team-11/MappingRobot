@@ -1,4 +1,4 @@
-package team11.mappingrobot;
+package mappingrobot;
 
 import lejos.hardware.Brick;
 import lejos.hardware.BrickFinder;
