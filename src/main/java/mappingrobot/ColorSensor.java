@@ -1,9 +1,5 @@
 package mappingrobot;
 
-import lejos.hardware.Brick;
-import lejos.hardware.BrickFinder;
-import lejos.hardware.Button;
-import lejos.hardware.port.Port;
 import lejos.hardware.sensor.EV3ColorSensor;
 import lejos.robotics.Color;
 import lejos.robotics.SampleProvider;
@@ -28,16 +24,6 @@ public class ColorSensor {
    * @param brick EV3 brick to use.
    */
   public ColorSensor(String port, Brick brick) {
-    Port physicalPort = brick.getPort(port);
-    sensor = new EV3ColorSensor(physicalPort);
-  }
-
-  /**
-   * Constructs a new color sensor connected to default brick.
-   * @param port Physical port on EV3.
-   */
-  public ColorSensor(String port) {
-    Brick brick = BrickFinder.getDefault();
     Port physicalPort = brick.getPort(port);
     sensor = new EV3ColorSensor(physicalPort);
   }

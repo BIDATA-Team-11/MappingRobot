@@ -3,6 +3,7 @@ package mappingrobot;
 import lejos.remote.ev3.RMIRegulatedMotor;
 import lejos.remote.ev3.RemoteEV3;
 import java.rmi.RemoteException;
+import lejos.remote.ev3.RemotePort;
 
 public final class RemoteRobot {
   private String ultraSonicPort = "S2";
@@ -15,6 +16,7 @@ public final class RemoteRobot {
   private RMIRegulatedMotor leftMotor = null;
   private RMIRegulatedMotor rightMotor = null;
   private RemoteEV3 ev3 = null;
+  private Port colorSensorPort = null;
 
   RemoteRobot() throws RemoteException, Exception {
     try {
