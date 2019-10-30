@@ -27,6 +27,8 @@ public final class RemoteRobot {
       throw new Exception(e.getMessage());
     }
 
+    colorSensorPort = new RemotePort("ColorSensor1")
+
     leftMotor = ev3.createRegulatedMotor("A",'l');
     rightMotor = ev3.createRegulatedMotor("C",'l');
   }
