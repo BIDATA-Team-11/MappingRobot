@@ -1,6 +1,8 @@
 package mappingrobot;
 
-import lejos.hardware.Button;
+import lejos.remote.ev3.RMIRemoteKeys;
+import lejos.remote.ev3.RMIRemoteKey;
+import java.rmi.Remote;
 import lejos.robotics.RegulatedMotor;
 import lejos.utility.Stopwatch;
 
@@ -26,14 +28,18 @@ public class App {
     System.out.println("");
     System.out.println("Enter:  Start");
 
+    Thread current = new Thread();
+
     do {
-      switch (Button.waitForAnyPress()) {
-        case Button.ID_RIGHT:
+      switch (remote.waitForAnyPress()) {
+        case RMIRemoteKey.RIGHT:
           break;
-        case Button.ID_LEFT:
-          start();
+        case RMIRemoteKey.LEFT:
+          current = new Thread(() -> { start(); });
+          current.start();
           break;
-        default:
+        case RMIRemoteKey.DOWN:
+          current.interrupt();
           break;
       }
     } while (true);
