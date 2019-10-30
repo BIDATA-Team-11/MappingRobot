@@ -1,8 +1,6 @@
 package mappingrobot;
 
 //import lejos.hardware.Button;
-import lejos.robotics.RegulatedMotor;
-import lejos.utility.Stopwatch;
 
 /**
  * LejOS Klient for Legorobotprosjekt 2019
