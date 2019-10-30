@@ -2,9 +2,10 @@ package mappingrobot;
 
 import lejos.remote.ev3.RMIRemoteKeys;
 import lejos.remote.ev3.RMIRemoteKey;
+import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RMIRegulatedMotor;
 import java.rmi.Remote;
-import lejos.robotics.RegulatedMotor;
-import lejos.utility.Stopwatch;
+import java.rmi.RemoteException;
 
 /**
  * LejOS Klient for Legorobotprosjekt 2019
@@ -28,25 +29,40 @@ public class App {
     System.out.println("");
     System.out.println("Enter:  Start");
 
+    // Thread.UncaughtExceptionHandler h = new Thread.UncaughtExceptionHandler() {
+    //   public void uncaughtException(Thread th, Throwable ex) {
+    //     System.out.println("Uncaught exception: " + ex);
+    //   };
+    // };
+
     Thread current = new Thread();
 
-    do {
-      switch (remote.waitForAnyPress()) {
-        case RMIRemoteKey.RIGHT:
-          break;
-        case RMIRemoteKey.LEFT:
-          current = new Thread(() -> { start(); });
-          current.start();
-          break;
-        case RMIRemoteKey.DOWN:
-          current.interrupt();
-          break;
-      }
-    } while (true);
-    /*
-     * TODO: Bruker while-løkke her så det kan gjøres mulig å legge inn en escape i hovedløkka,
-     *       sånn at det kan bli mulig å stoppe og starte roboten uten å drepe programmet.
-     */
+    try {
+      final RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
+
+      do {
+        switch (ev3.getKeys().waitForAnyPress()) {
+          case RMIRemoteKey.RIGHT:
+            break;
+          case RMIRemoteKey.LEFT:
+            current = new Thread( new Runnable() {
+              public void run() {
+                try {
+                  start(ev3);
+                } catch (Exception  e) {
+                }
+              }});
+            // current.setUncaughtExceptionHandler(h);
+            current.start();
+            break;
+          case RMIRemoteKey.DOWN:
+            current.interrupt();
+            break;
+        }
+      } while (true);
+    } catch (RemoteException e) {
+      throw e;
+    }
   }
 
   /**
@@ -57,21 +73,12 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start() {
-    Robot robot = new LineFollowingRobot(RobotDescription.wheelOffset, RobotDescription.wheelSize, "S1", "S4");
+  public static void start(RemoteEV3 ev3) throws Exception {
+    RMIRegulatedMotor motor = ev3.createRegulatedMotor("A", '1');
 
-    robot.updateDirection();
-    robot.update();
+    motor.forward();
+    Thread.sleep(10000);
 
-    /*
-     * "Hovedløkka" i programmet. Denne kjører til vi dreper den.
-     *
-     * Her ligger logikken som styrer retning - fram, sving til venstre, sving til høyre.
-     */
-    while (true) {
-      if (robot.updateDirection()) {
-        robot.update();
-      }
-    }
+    throw new Exception();
   }
 }
