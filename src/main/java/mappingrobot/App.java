@@ -1,6 +1,6 @@
 package mappingrobot;
 
-//import lejos.hardware.Button;
+import lejos.remote.ev3.RemoteEV3;
 
 /**
  * LejOS Klient for Legorobotprosjekt 2019
@@ -50,20 +50,26 @@ public class App {
    * @see Robot
    */
   public static void start() {
-    Robot robot = new LineFollowingRobot(RobotDescription.wheelOffset, RobotDescription.wheelSize, "S1", "S4");
+    try {
+      RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
 
-    robot.updateDirection();
-    robot.update();
+      Robot robot;
 
-    /*
-     * "Hovedløkka" i programmet. Denne kjører til vi dreper den.
-     *
-     * Her ligger logikken som styrer retning - fram, sving til venstre, sving til høyre.
-     */
-    while (true) {
-      if (robot.updateDirection()) {
-        robot.update();
+      //robot.updateDirection();
+      //robot.update();
+
+      /*
+       * "Hovedløkka" i programmet. Denne kjører til vi dreper den.
+       *
+       * Her ligger logikken som styrer retning - fram, sving til venstre, sving til høyre.
+       */
+      while (true) {
+        //if (robot.updateDirection()) {
+          //robot.update();
+        //}
       }
+    } catch(Exception e) {
+
     }
   }
 }
