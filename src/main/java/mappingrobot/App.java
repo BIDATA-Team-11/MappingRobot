@@ -2,7 +2,6 @@ package mappingrobot;
 
 import lejos.remote.ev3.RMIRemoteKeys;
 import lejos.remote.ev3.RMIRemoteKey;
-import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RMIRegulatedMotor;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
@@ -38,17 +37,17 @@ public class App {
     Thread current = new Thread();
 
     try {
-      final RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
+      RemoteRobot robot = new RemoteRobot();
 
       do {
-        switch (ev3.getKeys().waitForAnyPress()) {
+        switch (robot.getEV3().getKeys().waitForAnyPress()) {
           case RMIRemoteKey.RIGHT:
             break;
           case RMIRemoteKey.LEFT:
             current = new Thread( new Runnable() {
               public void run() {
                 try {
-                  start(ev3);
+                  //start(ev3);
                 } catch (Exception  e) {
                 }
               }});
@@ -73,12 +72,12 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start(RemoteEV3 ev3) throws Exception {
+  /*public static void start(RemoteEV3 ev3) throws Exception {
     RMIRegulatedMotor motor = ev3.createRegulatedMotor("A", '1');
 
     motor.forward();
     Thread.sleep(10000);
 
     throw new Exception();
-  }
+  }*/
 }

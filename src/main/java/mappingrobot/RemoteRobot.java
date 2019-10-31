@@ -2,12 +2,14 @@ package mappingrobot;
 
 import lejos.remote.ev3.RMIRegulatedMotor;
 import lejos.remote.ev3.RemoteEV3;
+import lejos.hardware.BrickFinder;
+import lejos.hardware.ev3.EV3;
 import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 import lejos.hardware.port.Port;
 import java.net.MalformedURLException;
 
-class RemoteRobot extends RemoteEV3 {
+class RemoteRobot {
   private String ultraSonicPort = "S2";
   private double wheelSize = 5.0 * Units.cm;
   private float wheelOffset = 7.0f * Units.cm;
@@ -21,7 +23,7 @@ class RemoteRobot extends RemoteEV3 {
   private Port colorSensorPort = null;
 
   RemoteRobot() throws RemoteException, MalformedURLException, NotBoundException {
-    super("10.0.1.1");
+    RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
   }
 
   public void setUltrasonicSensorPort(String port) {
@@ -50,7 +52,7 @@ class RemoteRobot extends RemoteEV3 {
 
 
   public RemoteEV3 getEV3() {
-    return this;
+    return this.ev3;
   }
 
   public RMIRegulatedMotor getLeftMotor() {
