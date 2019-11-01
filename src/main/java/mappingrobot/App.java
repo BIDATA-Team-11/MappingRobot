@@ -3,10 +3,13 @@ package mappingrobot;
 import lejos.remote.ev3.RMIRemoteKeys;
 import lejos.remote.ev3.RMIRemoteKey;
 import lejos.remote.ev3.RemoteEV3;
+import lejos.remote.ev3.RemoteRequestEV3;
 import lejos.remote.ev3.RMIRegulatedMotor;
+import lejos.robotics.RegulatedMotor;
 import lejos.remote.ev3.RMIRemoteRegulatedMotor;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
+import java.lang.InterruptedException;
 
 
 /**
@@ -48,11 +51,10 @@ public class App {
 
             current = new Thread(new Runnable() {
               public void run() {
-                try {
-                  start(ev3);
-                } catch (Exception  e) {
-                  System.out.println("Feil: "+e);
-                }
+                try { 
+                  start(ev3); 
+                } catch (RemoteException e) { System.out.println("Feil: "+e); } 
+                catch (Exception e) { System.out.println(e); }
               }});
 
             current.start();
@@ -79,13 +81,32 @@ public class App {
    * @see Robot
    */
   public static void start(RemoteEV3 ev3) throws Exception {
-    RMIRegulatedMotor motor = ev3.createRegulatedMotor("A", 'L');
+    RMIRegulatedMotor MVenstre = ev3.createRegulatedMotor("A", 'L'); 
+    RMIRegulatedMotor MHøyre = ev3.createRegulatedMotor("C", 'L'); 
 
-    System.out.println("Trying motor");
-    System.out.println(motor.getMaxSpeed());
+    try {
+      System.out.println("Trying motor");
 
-    motor.forward();
-    Thread.sleep(1000);
-    motor.stop(true);
+      MVenstre.forward();
+      MHøyre.forward();
+      Thread.sleep(2000);
+
+      MVenstre.stop(true);
+      MHøyre.stop(true);
+
+      MVenstre.close();
+      MHøyre.close();
+
+      if (Thread.interrupted()) {
+        MVenstre.close();
+        MHøyre.close();
+      }
+
+    } catch (InterruptedException e) {
+      MVenstre.close();
+      MHøyre.close();
+    } catch (RemoteException e) {
+      throw e;
+    }
   }
 }
