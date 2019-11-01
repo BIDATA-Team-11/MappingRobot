@@ -55,6 +55,36 @@ mindstorms {
     home = '/home/lejos/programs'
 }
 
+task fatJar(type: Jar) {
+	manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'mappingrobot.App'
+    )
+    }
+    baseName = project.name + '-all'
+    from { configurations.compile.collect { it.isDirectory() ? it : zipTree(it) } }
+    with jar
+}
+
+jar {
+  manifest {
+    attributes(
+      'Class-Path': configurations.compile.collect { it.getName() }.join(' '),
+      'Main-Class': 'mappingrobot.App'
+    )
+  }
+  from {
+    configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
+task sourcesJar(type: Jar) {
+    from sourceSets.main.allJava
+    archiveClassifier = 'sources'
+}
+
 task myJavadocs(type: Javadoc) {
    source = sourceSets.main.allJava
  }
+
