@@ -79,7 +79,7 @@ public class App {
    * @see Robot
    */
   public static void start(RemoteEV3 ev3) throws Exception {
-    if (motor == null) { motor = ev3.createRegulatedMotor("A", 'L'); }
+    RMIRegulatedMotor motor = ev3.createRegulatedMotor("A", 'L');
 
     System.out.println("Trying motor");
     System.out.println(motor.getMaxSpeed());
