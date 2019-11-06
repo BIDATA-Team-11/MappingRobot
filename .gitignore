@@ -6,3 +6,9 @@ build
 .metadata
 .gradle
 jdt.ls-java-project
+
+# Ignore jokkestuff
+bin
+.classpath
+.project
+.settings
