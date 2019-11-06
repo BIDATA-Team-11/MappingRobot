@@ -11,7 +11,8 @@ import java.net.MalformedURLException;
 import lejos.robotics.chassis.Chassis;
 
 class RemoteRobot {
-  private String ultraSonicPort = "S2";
+  private Port DistanceMeasurePort = null;
+  private DistanceMeasure distanceMeasureSensor = null;
   private double wheelSize = 5.0 * Units.cm;
   private float wheelOffset = 7.0f * Units.cm;
   private String colorSensor1PortName = "S3";
@@ -24,14 +25,38 @@ class RemoteRobot {
   private Port colorSensorPort = null;
   private Chassis chassis = null;
 
+  public static enum Direction {
+    /** Turn right while driving. */
+    RIGHT,
+
+    /** Stop, then turn right. */
+    SHARP_RIGHT,
+
+    /** Turn left while driving. */
+    LEFT,
+
+    /** Stop, then turn left. */
+    SHARP_LEFT,
+
+    /** Go forward. */
+    FORWARD,
+
+    /** Movements are carried out int backwards direction. */
+    REVERSE,
+
+    /** Stop. */
+    STOP
+  }
+
   RemoteRobot() throws RemoteException, MalformedURLException, NotBoundException {
     RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
     leftMotor = ev3.createRegulatedMotor(leftMotorPort, 'L');
     rightMotor = ev3.createRegulatedMotor(rightMotorPort, 'L');
+    // distanceMeasureSensor = new Ultrasonic();
   }
 
-  public void setUltrasonicSensorPort(String port) {
-    this.ultraSonicPort = port;
+  public void setDistanceSensorPort(String port) {
+    // this.DistanceMeasurePort = port;
   }
 
   public void setWheelSizeInCm(double wheelSize) {
