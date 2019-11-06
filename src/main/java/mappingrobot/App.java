@@ -4,7 +4,6 @@ import lejos.remote.ev3.RMIRemoteKey;
 import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RMIRegulatedMotor;
 import java.rmi.RemoteException;
-import java.lang.InterruptedException;
 
 /**
  * LejOS Klient for Legorobotprosjekt 2019
@@ -33,42 +32,42 @@ public class App {
     Thread current = new Thread();
 
     try {
-      bot = new RemoteRobot();
-      final RemoteEV3 ev3 = bot.getEV3();
+      // bot = new RemoteRobot();
+      // final RemoteEV3 ev3 = bot.getEV3();
+      final RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
       ev3.setDefault();
 
       do {
         switch (ev3.getKeys().waitForAnyPress()) {
-        case RMIRemoteKey.RIGHT:
-          System.out.println("Right");
-          break;
+          case RMIRemoteKey.RIGHT:
+            System.out.println("Right");
+            break;
 
-        case RMIRemoteKey.LEFT:
-          System.out.println("Left");
+          case RMIRemoteKey.LEFT:
+            System.out.println("Left");
 
-          current = new Thread(new Runnable() {
-            public void run() {
-              try {
-                start();
-              } catch (RemoteException e) {
-                System.out.println("Error: " + e.getMessage());
-                System.out.println("Here's the stacktrace. You figure it out.\n");
-                e.printStackTrace();
-              } catch (Exception e) {
-                System.out.println("Error: " + e.getMessage());
-                System.out.println("Here's the stacktrace. You figure it out.\n");
-                e.printStackTrace();
-              }
-            }
-          });
+            current = new Thread(new Runnable() {
+              public void run() {
+                try {
+                  start(ev3);
+                } catch (RemoteException e) {
+                  System.out.println("Error: " + e.getMessage());
+                  System.out.println("Here's the stacktrace. You figure it out.\n");
+                  e.printStackTrace();
+                } catch (Exception e) {
+                  System.out.println("Error: " + e.getMessage());
+                  System.out.println("Here's the stacktrace. You figure it out.\n");
+                  e.printStackTrace();
+                }
+              }});
 
-          current.start();
-          break;
+            current.start();
+            break;
 
-        case RMIRemoteKey.DOWN:
-          System.out.println("Down");
-          current.interrupt();
-          break;
+          case RMIRemoteKey.DOWN:
+            System.out.println("Down");
+            current.interrupt();
+            break;
         }
       } while (true);
     } catch (RemoteException e) {
@@ -90,36 +89,55 @@ public class App {
    *                         hovedfargesensor.
    * @param robot            Hjelpeklasse for motorene.
    * @see ColorSensor
-   * @see Robot
+
+  t
    */
-  public static void start() throws Exception {
-    RMIRegulatedMotor MVenstre = bot.getLeftMotor();
-    RMIRegulatedMotor MHøyre = bot.getRightMotor();
+   /**
+      * Starter selve legoroboten.
+      *
+      * @param mainSensor       Hovedfargesensor. Står midt på fronten på roboten..
+      * @param correctionSensor Korrigeringssensor. Står til høyre for
+      *                         hovedfargesensor.
+      * @param robot            Hjelpeklasse for motorene.
+      * @see ColorSensor
+      * @see Robot
+      */
+     public static void start(RemoteEV3 ev3) throws Exception {
+       RMIRegulatedMotor MVenstre = ev3.createRegulatedMotor("A", 'L');
+       RMIRegulatedMotor MHøyre = ev3.createRegulatedMotor("C", 'L');
 
-    try {
-      System.out.println("Trying motor");
+       try {
+         System.out.println("Trying motor");
 
-      MVenstre.forward();
-      MHøyre.forward();
-      Thread.sleep(2000);
+         MVenstre.forward();
+         MHøyre.forward();
+         Thread.sleep(2000);
 
-      MVenstre.stop(true);
-      MHøyre.stop(true);
+         MVenstre.stop(true);
+         MHøyre.stop(true);
 
-      MVenstre.close();
-      MHøyre.close();
+         MVenstre.close();
+         MHøyre.close();
 
-      if (Thread.interrupted()) {
-        MVenstre.close();
-        MHøyre.close();
-      }
+         if (Thread.interrupted()) {
+           MVenstre.close();
+           MHøyre.close();
+         }
 
-    } catch (InterruptedException e) {
-      MVenstre.close();
-      MHøyre.close();
-      throw e;
-    } catch (RemoteException e) {
-      throw e;
-    }
-  }
-}
+       } catch (InterruptedException e) {
+         MVenstre.close();
+         MHøyre.close();
+         System.out.println("Error: " + e.getMessage());
+         System.out.println("Here's the stacktrace. You figure it out. I closed the motorports for you.\n");
+         e.printStackTrace();
+       } catch (RemoteException e) {
+         System.out.println("Error: " + e.getMessage());
+         System.out.println("Here's the stacktrace. You figure it out.\n");
+         e.printStackTrace();
+       } catch (Exception e) {
+         System.out.println("Error: " + e.getMessage());
+         System.out.println("Here's the stacktrace. You figure it out.\n");
+         e.printStackTrace();
+       }
+     }
+   }
