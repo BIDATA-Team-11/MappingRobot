@@ -26,22 +26,14 @@ public class Motor {
   }
 
   public void close() throws RemoteException {
-    try {
-      this.MVenstre.close();
-      this.MHøyre.close();
-    } catch (RemoteException e) {
-      throw e;
-    }
+    this.MVenstre.close();
+    this.MHøyre.close();
   }
 
   public void stop() throws RemoteException {
-    try {
-      this.MVenstre.stop(true);
-      this.MHøyre.stop(true);
-      close();
-    } catch (RemoteException e) {
-      throw e;
-    }
+    this.MVenstre.stop(true);
+    this.MHøyre.stop(true);
+    close();
   }
 
   public void left() throws RemoteException {
@@ -58,8 +50,6 @@ public class Motor {
 
     } catch (InterruptedException e) {
       close();
-    } catch (RemoteException e) {
-      throw e;
     }
   }
 
@@ -77,8 +67,6 @@ public class Motor {
 
     } catch (InterruptedException e) {
       close();
-    } catch (RemoteException e) {
-      throw e;
     }
   }
 
@@ -96,8 +84,6 @@ public class Motor {
 
     } catch (InterruptedException e) {
       close();
-    } catch (RemoteException e) {
-      throw e;
     }
   }
 
@@ -114,8 +100,6 @@ public class Motor {
 
     } catch (InterruptedException e) {
       close();
-    } catch (RemoteException e) {
-      throw e;
     }
   }
 }
