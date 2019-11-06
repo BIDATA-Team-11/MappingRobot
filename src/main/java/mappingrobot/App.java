@@ -26,9 +26,8 @@ public class App {
    * sensorene ser, kalibrere fargesensorene eller å få roboten til å kjøre.
    *
    * @param args Argumenter blir ignorert. Heh.
-   * @throws Exception Gir EV3 mulighet til å catche eventuelle feil.
    */
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     System.out.println("1.0.0-remotebot");
 
     Thread current = new Thread();
@@ -52,9 +51,13 @@ public class App {
               try {
                 start();
               } catch (RemoteException e) {
-                System.out.println("Feil: " + e);
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
               } catch (Exception e) {
-                System.out.println(e);
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
               }
             }
           });
@@ -69,8 +72,13 @@ public class App {
         }
       } while (true);
     } catch (RemoteException e) {
-      System.out.println(e);
-      throw e;
+      System.out.println("Error: " + e.getMessage());
+      System.out.println("Here's the stacktrace. You figure it out.\n");
+      e.printStackTrace();
+    } catch (Exception e) {
+      System.out.println("Error: " + e.getMessage());
+      System.out.println("Here's the stacktrace. You figure it out.\n");
+      e.printStackTrace();
     }
   }
 
@@ -109,6 +117,7 @@ public class App {
     } catch (InterruptedException e) {
       MVenstre.close();
       MHøyre.close();
+      throw e;
     } catch (RemoteException e) {
       throw e;
     }

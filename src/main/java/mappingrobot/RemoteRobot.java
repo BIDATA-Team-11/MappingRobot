@@ -8,6 +8,7 @@ import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 import lejos.hardware.port.Port;
 import java.net.MalformedURLException;
+import lejos.robotics.chassis.Chassis;
 
 class RemoteRobot {
   private String ultraSonicPort = "S2";
@@ -21,6 +22,7 @@ class RemoteRobot {
   private RMIRegulatedMotor rightMotor = null;
   private RemoteEV3 ev3 = null;
   private Port colorSensorPort = null;
+  private Chassis chassis = null;
 
   RemoteRobot() throws RemoteException, MalformedURLException, NotBoundException {
     RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
@@ -58,5 +60,9 @@ class RemoteRobot {
 
   public RMIRegulatedMotor getRightMotor() {
     return this.rightMotor;
+  }
+
+  public void moveForward() {
+
   }
 }
