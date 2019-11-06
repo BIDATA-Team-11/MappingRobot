@@ -31,12 +31,13 @@ public class Ultrasonic {
     this.ev3 = ev3;
     // Port ev3Port = ev3.getPort(port);
     // this.distance = new NXTUltrasonicSensor(port).getDistanceMode();
-    // this.sampleProvider = ev3.createSampleProvider(port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance"); 
+    // this.sampleProvider = ev3.createSampleProvider(port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
     // this.sample = sampleProvider.fetchSample();
+    this.sampleProvider = ev3.createSampleProvider(this.port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
   }
 
   private void createSonic() {
-    this.sampleProvider = ev3.createSampleProvider(this.port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance"); 
+    //this.sampleProvider = ev3.createSampleProvider(this.port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
   }
 
   public void close() throws RemoteException {
@@ -44,12 +45,8 @@ public class Ultrasonic {
   }
 
   public float[] getSample() throws RemoteException {
-    createSonic();
     float[] sample;
     sample = this.sampleProvider.fetchSample();
-    sample = this.sampleProvider.fetchSample();
-    close();
-
     return sample;
   }
 
@@ -60,7 +57,7 @@ public class Ultrasonic {
   //   return this.sample[0] != Float.POSITIVE_INFINITY;
   // }
 
-  public float getDistance() throws RemoteException { 
+  public float getDistance() throws RemoteException {
     return getSample()[0];
   }
 }
