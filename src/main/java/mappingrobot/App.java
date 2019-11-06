@@ -98,10 +98,16 @@ public class App {
       System.out.println(distance);
     }
 
-    try(Motor motor = new Motor(ev3)) {
+    // Ultrasonic sonic = new Ultrasonic(ev3, "S1");
+    // float distance = sonic.getDistance();
+    // System.out.println(distance);
 
+    try(Motor motor = new Motor(ev3)) {
+      motor.forward();
     }
 
+//     Motor motor = new Motor(ev3);
+//     motor.forward();
     // Motor motor = new Motor(ev3);
 
     // motor.forward();
