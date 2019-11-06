@@ -93,9 +93,13 @@ public class App {
    * @see Robot
    */
   public static void start(RemoteEV3 ev3) throws Exception {
-    Ultrasonic sonic = new Ultrasonic(ev3, "S1");
-    float distance = sonic.getDistance();
-    System.out.println(distance);
+    try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
+      float distance = sonic.getDistance();
+      System.out.println(distance);
+    } catch(Exception e) {
+      System.out.println("Something nasty happened: " + e.getMessage());
+      e.printStackTrace();
+    }
 
     // Motor motor = new Motor(ev3);
 
