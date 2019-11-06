@@ -39,35 +39,36 @@ public class App {
 
       do {
         switch (ev3.getKeys().waitForAnyPress()) {
-          case RMIRemoteKey.RIGHT:
-            System.out.println("Right");
-            break;
+        case RMIRemoteKey.RIGHT:
+          System.out.println("Right");
+          break;
 
-          case RMIRemoteKey.LEFT:
-            System.out.println("Left");
+        case RMIRemoteKey.LEFT:
+          System.out.println("Left");
 
-            current = new Thread(new Runnable() {
-              public void run() {
-                try {
-                  start(ev3);
-                } catch (RemoteException e) {
-                  System.out.println("Error: " + e.getMessage());
-                  System.out.println("Here's the stacktrace. You figure it out.\n");
-                  e.printStackTrace();
-                } catch (Exception e) {
-                  System.out.println("Error: " + e.getMessage());
-                  System.out.println("Here's the stacktrace. You figure it out.\n");
-                  e.printStackTrace();
-                }
-              }});
+          current = new Thread(new Runnable() {
+            public void run() {
+              try {
+                start(ev3);
+              } catch (RemoteException e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
+              } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
+              }
+            }
+          });
 
-            current.start();
-            break;
+          current.start();
+          break;
 
-          case RMIRemoteKey.DOWN:
-            System.out.println("Down");
-            current.interrupt();
-            break;
+        case RMIRemoteKey.DOWN:
+          System.out.println("Down");
+          current.interrupt();
+          break;
         }
       } while (true);
     } catch (RemoteException e) {
@@ -89,55 +90,14 @@ public class App {
    *                         hovedfargesensor.
    * @param robot            Hjelpeklasse for motorene.
    * @see ColorSensor
-
-  t
+   * @see Robot
    */
-   /**
-      * Starter selve legoroboten.
-      *
-      * @param mainSensor       Hovedfargesensor. Står midt på fronten på roboten..
-      * @param correctionSensor Korrigeringssensor. Står til høyre for
-      *                         hovedfargesensor.
-      * @param robot            Hjelpeklasse for motorene.
-      * @see ColorSensor
-      * @see Robot
-      */
-     public static void start(RemoteEV3 ev3) throws Exception {
-       RMIRegulatedMotor MVenstre = ev3.createRegulatedMotor("A", 'L');
-       RMIRegulatedMotor MHøyre = ev3.createRegulatedMotor("C", 'L');
+  public static void start(RemoteEV3 ev3) throws Exception {
+    Motor motor = new Motor(ev3);
 
-       try {
-         System.out.println("Trying motor");
-
-         MVenstre.forward();
-         MHøyre.forward();
-         Thread.sleep(2000);
-
-         MVenstre.stop(true);
-         MHøyre.stop(true);
-
-         MVenstre.close();
-         MHøyre.close();
-
-         if (Thread.interrupted()) {
-           MVenstre.close();
-           MHøyre.close();
-         }
-
-       } catch (InterruptedException e) {
-         MVenstre.close();
-         MHøyre.close();
-         System.out.println("Error: " + e.getMessage());
-         System.out.println("Here's the stacktrace. You figure it out. I closed the motorports for you.\n");
-         e.printStackTrace();
-       } catch (RemoteException e) {
-         System.out.println("Error: " + e.getMessage());
-         System.out.println("Here's the stacktrace. You figure it out.\n");
-         e.printStackTrace();
-       } catch (Exception e) {
-         System.out.println("Error: " + e.getMessage());
-         System.out.println("Here's the stacktrace. You figure it out.\n");
-         e.printStackTrace();
-       }
-     }
-   }
+    motor.forward();
+    motor.backward();
+    Thread.sleep(1000);
+    motor.stop();
+  }
+}

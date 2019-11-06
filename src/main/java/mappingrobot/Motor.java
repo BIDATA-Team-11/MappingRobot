@@ -14,17 +14,21 @@ public class Motor {
   RMIRegulatedMotor MHøyre;
 
   public Motor(RemoteEV3 ev3) {
-    // this.ev3 = ev3;
-    this.MHøyre = ev3.createRegulatedMotor("C", 'L');
-    this.MVenstre = ev3.createRegulatedMotor("A", 'L');
+    this.ev3 = ev3;
+    // this.MHøyre = ev3.createRegulatedMotor("C", 'L');
+    // this.MVenstre = ev3.createRegulatedMotor("A", 'L');
   }
 
   private void createLeft() { this.MVenstre = this.ev3.createRegulatedMotor("A", 'L'); }
   private void createRight() { this.MHøyre = this.ev3.createRegulatedMotor("C", 'L'); }
 
   public void close() throws RemoteException {
-    this.MVenstre.close();
-    this.MHøyre.close();
+    try {
+      this.MVenstre.close();
+      this.MHøyre.close();
+    } catch(RemoteException e) {
+      throw e;
+    }
   }
 
   public void stop() throws RemoteException {
@@ -43,8 +47,6 @@ public class Motor {
       this.MHøyre.backward();
 
       Thread.sleep(2000);
-
-      this.MHøyre.close();
 
       if (Thread.interrupted()) {
         this.MVenstre.close();
@@ -65,7 +67,6 @@ public class Motor {
 
       this.MVenstre.backward();
       Thread.sleep(2000);
-      this.MVenstre.close();
 
       if (Thread.interrupted()) {
         this.MVenstre.close();
@@ -89,8 +90,8 @@ public class Motor {
       this.MHøyre.forward();
 
       Thread.sleep(2000);
-      this.MVenstre.close();
-      this.MHøyre.close();
+
+      close();
 
       if (Thread.interrupted()) {
         this.MVenstre.close();
@@ -107,16 +108,14 @@ public class Motor {
 
   public void forward() throws RemoteException {
     try {
-      // createRight();
-      // createLeft();
+      createRight();
+      createLeft();
 
       this.MVenstre.backward();
       this.MHøyre.backward();
 
       Thread.sleep(2000);
-
-      this.MVenstre.close();
-      this.MHøyre.close();
+      close();
 
       if (Thread.interrupted()) {
         this.MVenstre.close();
