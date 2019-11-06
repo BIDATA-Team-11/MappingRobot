@@ -19,6 +19,8 @@ import java.lang.InterruptedException;
  * @version 2.0.0
  */
 public class App {
+  static RemoteRobot bot = null;
+
   /**
    * Main-metode for klienten. Her får man valget om å printe ut de fargene
    * sensorene ser, kalibrere fargesensorene eller å få roboten til å kjøre.
@@ -32,7 +34,7 @@ public class App {
     Thread current = new Thread();
 
     try {
-      final RemoteRobot bot = new RemoteRobot();
+      bot = new RemoteRobot();
       final RemoteEV3 ev3 = bot.getEV3();
       ev3.setDefault();
 
@@ -48,7 +50,7 @@ public class App {
           current = new Thread(new Runnable() {
             public void run() {
               try {
-                start(ev3);
+                start();
               } catch (RemoteException e) {
                 System.out.println("Feil: " + e);
               } catch (Exception e) {
@@ -82,9 +84,9 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start(RemoteEV3 ev3) throws Exception {
-    RMIRegulatedMotor MVenstre = ev3.createRegulatedMotor("A", 'L');
-    RMIRegulatedMotor MHøyre = ev3.createRegulatedMotor("C", 'L');
+  public static void start() throws Exception {
+    RMIRegulatedMotor MVenstre = bot.getLeftMotor();
+    RMIRegulatedMotor MHøyre = bot.getRightMotor();
 
     try {
       System.out.println("Trying motor");

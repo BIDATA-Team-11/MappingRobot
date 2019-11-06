@@ -24,6 +24,8 @@ class RemoteRobot {
 
   RemoteRobot() throws RemoteException, MalformedURLException, NotBoundException {
     RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
+    leftMotor = ev3.createRegulatedMotor(leftMotorPort, 'L');
+    rightMotor = ev3.createRegulatedMotor(rightMotorPort, 'L');
   }
 
   public void setUltrasonicSensorPort(String port) {
@@ -34,22 +36,17 @@ class RemoteRobot {
     this.wheelSize = wheelSize * Units.cm;
   }
 
-  /*RemoteRobot() throws RemoteException, Exception {
-    try {
-      this.ev3 = new RemoteEV3("10.0.0.1");
-    } catch(RemoteException e) {
-      throw new RemoteException(e.getMessage());
-    } catch (Exception e) {
-      throw new Exception(e.getMessage());
-    }
-
-    colorSensorPort = ev3.getPort(colorSensor1PortName);
-
-    leftMotor = ev3.createRegulatedMotor("A",'1');
-    rightMotor = ev3.createRegulatedMotor("C",'1');
-  }*/
-
-
+  /*
+   * RemoteRobot() throws RemoteException, Exception { try { this.ev3 = new
+   * RemoteEV3("10.0.0.1"); } catch(RemoteException e) { throw new
+   * RemoteException(e.getMessage()); } catch (Exception e) { throw new
+   * Exception(e.getMessage()); }
+   *
+   * colorSensorPort = ev3.getPort(colorSensor1PortName);
+   *
+   * leftMotor = ev3.createRegulatedMotor("A",'1'); rightMotor =
+   * ev3.createRegulatedMotor("C",'1'); }
+   */
 
   public RemoteEV3 getEV3() {
     return this.ev3;
