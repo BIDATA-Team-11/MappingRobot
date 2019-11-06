@@ -81,13 +81,17 @@ public class App {
    * @see Robot
    */
   public static void start(RemoteEV3 ev3) throws Exception {
-    Motor motor = new Motor(ev3);
+    Ultrasonic sonic = new Ultrasonic(ev3, "S1");
+    float distance = sonic.getDistance();
+    System.out.println(distance);
 
-    motor.forward();
-    motor.backward();
-    motor.right();
-    motor.left();
-    Thread.sleep(1000);
-    motor.stop();
+    // Motor motor = new Motor(ev3);
+
+    // motor.forward();
+    // motor.backward();
+    // motor.right();
+    // motor.left();
+    // Thread.sleep(1000);
+    // motor.stop();
   }
 }
