@@ -85,6 +85,8 @@ public class App {
 
     motor.forward();
     motor.backward();
+    motor.right();
+    motor.left();
     Thread.sleep(1000);
     motor.stop();
   }

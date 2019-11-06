@@ -15,8 +15,6 @@ public class Motor {
 
   public Motor(RemoteEV3 ev3) {
     this.ev3 = ev3;
-    // this.MHøyre = ev3.createRegulatedMotor("C", 'L');
-    // this.MVenstre = ev3.createRegulatedMotor("A", 'L');
   }
 
   private void createLeft() { this.MVenstre = this.ev3.createRegulatedMotor("A", 'L'); }
@@ -35,6 +33,7 @@ public class Motor {
     try {
       this.MVenstre.stop(true);
       this.MHøyre.stop(true);
+      close();
     } catch(RemoteException e) {
       throw e;
     }
@@ -43,19 +42,17 @@ public class Motor {
   public void left() throws RemoteException {
     try {
       createRight();
+      createLeft();
       
       this.MHøyre.backward();
+      this.MVenstre.stop(true);
 
       Thread.sleep(2000);
 
-      if (Thread.interrupted()) {
-        this.MVenstre.close();
-        this.MHøyre.close();
-      }
+      close();
 
     } catch (InterruptedException e) {
-      this.MVenstre.close();
-      this.MHøyre.close();
+      close();
     } catch (RemoteException e) {
       throw e;
     }
@@ -63,19 +60,18 @@ public class Motor {
 
   public void right() throws RemoteException {
     try {
+      createRight();
       createLeft();
 
       this.MVenstre.backward();
+      this.MHøyre.stop(true);
+
       Thread.sleep(2000);
 
-      if (Thread.interrupted()) {
-        this.MVenstre.close();
-        this.MHøyre.close();
-      }
+      close();
 
     } catch (InterruptedException e) {
-      this.MVenstre.close();
-      this.MHøyre.close();
+      close();
     } catch (RemoteException e) {
       throw e;
     }
@@ -93,14 +89,8 @@ public class Motor {
 
       close();
 
-      if (Thread.interrupted()) {
-        this.MVenstre.close();
-        this.MHøyre.close();
-      }
-
     } catch (InterruptedException e) {
-      this.MVenstre.close();
-      this.MHøyre.close();
+      close();
     } catch (RemoteException e) {
       throw e;
     }
@@ -117,14 +107,8 @@ public class Motor {
       Thread.sleep(2000);
       close();
 
-      if (Thread.interrupted()) {
-        this.MVenstre.close();
-        this.MHøyre.close();
-      }
-
     } catch (InterruptedException e) {
-      this.MVenstre.close();
-      this.MHøyre.close();
+      close();
     } catch (RemoteException e) {
       throw e;
     }
