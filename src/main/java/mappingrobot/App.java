@@ -96,9 +96,10 @@ public class App {
     try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
       float distance = sonic.getDistance();
       System.out.println(distance);
-    } catch(Exception e) {
-      System.out.println("Something nasty happened: " + e.getMessage());
-      e.printStackTrace();
+    }
+
+    try(Motor motor = new Motor(ev3)) {
+
     }
 
     // Motor motor = new Motor(ev3);
