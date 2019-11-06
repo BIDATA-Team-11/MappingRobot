@@ -9,9 +9,9 @@ import java.lang.InterruptedException;
 
 public class Motor {
 
-  RemoteEV3 ev3;
-  RMIRegulatedMotor MVenstre;
-  RMIRegulatedMotor MHøyre;
+  private RemoteEV3 ev3;
+  private RMIRegulatedMotor MVenstre;
+  private RMIRegulatedMotor MHøyre;
 
   public Motor(RemoteEV3 ev3) {
     this.ev3 = ev3;
