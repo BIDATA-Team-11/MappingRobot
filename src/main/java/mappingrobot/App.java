@@ -25,9 +25,8 @@ public class App {
    * sensorene ser, kalibrere fargesensorene eller å få roboten til å kjøre.
    *
    * @param args Argumenter blir ignorert. Heh.
-   * @throws Exception Gir EV3 mulighet til å catche eventuelle feil.
    */
-  public static void main(String[] args) throws Exception {
+  public static void main(String[] args) {
     System.out.println("1.0.0-remotebot");
 
     Thread current = new Thread();
@@ -40,33 +39,46 @@ public class App {
 
       do {
         switch (ev3.getKeys().waitForAnyPress()) {
-          case RMIRemoteKey.RIGHT:
-            System.out.println("Right");
-            break;
+        case RMIRemoteKey.RIGHT:
+          System.out.println("Right");
+          break;
 
-          case RMIRemoteKey.LEFT:
-            System.out.println("Left");
+        case RMIRemoteKey.LEFT:
+          System.out.println("Left");
 
-            current = new Thread(new Runnable() {
-              public void run() {
-                try {
-                  start(ev3);
-                } catch (Exception  e) {
-                  System.out.println("Feil: "+e);
-                }
-              }});
+          current = new Thread(new Runnable() {
+            public void run() {
+              try {
+                start(ev3);
+              } catch (RemoteException e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
+              } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
+              }
+            }
+          });
 
-            current.start();
-            break;
+          current.start();
+          break;
 
-          case RMIRemoteKey.DOWN:
-            System.out.println("Down");
-            current.interrupt();
-            break;
+        case RMIRemoteKey.DOWN:
+          System.out.println("Down");
+          current.interrupt();
+          break;
         }
       } while (true);
     } catch (RemoteException e) {
-      System.out.println(e);
+      System.out.println("Error: " + e.getMessage());
+      System.out.println("Here's the stacktrace. You figure it out.\n");
+      e.printStackTrace();
+    } catch (Exception e) {
+      System.out.println("Error: " + e.getMessage());
+      System.out.println("Here's the stacktrace. You figure it out.\n");
+      e.printStackTrace();
     }
   }
 

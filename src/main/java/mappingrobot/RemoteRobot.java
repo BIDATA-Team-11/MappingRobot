@@ -8,9 +8,11 @@ import java.rmi.RemoteException;
 import java.rmi.NotBoundException;
 import lejos.hardware.port.Port;
 import java.net.MalformedURLException;
+import lejos.robotics.chassis.Chassis;
 
 class RemoteRobot {
-  private String ultraSonicPort = "S2";
+  private Port DistanceMeasurePort = null;
+  private DistanceMeasure distanceMeasureSensor = null;
   private double wheelSize = 5.0 * Units.cm;
   private float wheelOffset = 7.0f * Units.cm;
   private String colorSensor1PortName = "S3";
@@ -21,19 +23,68 @@ class RemoteRobot {
   private RMIRegulatedMotor rightMotor = null;
   private RemoteEV3 ev3 = null;
   private Port colorSensorPort = null;
+  private Chassis chassis = null;
+  private Motor movement = null;
+
+  public static enum Direction {
+    /** Turn right while driving. */
+    RIGHT,
+
+    /** Stop, then turn right. */
+    SHARP_RIGHT,
+
+    /** Turn left while driving. */
+    LEFT,
+
+    /** Stop, then turn left. */
+    SHARP_LEFT,
+
+    /** Go forward. */
+    FORWARD,
+
+    /** Movements are carried out int backwards direction. */
+    REVERSE, BACKWARD,
+
+    /** Stop. */
+    STOP
+  }
 
   RemoteRobot() throws RemoteException, MalformedURLException, NotBoundException {
     RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
     leftMotor = ev3.createRegulatedMotor(leftMotorPort, 'L');
     rightMotor = ev3.createRegulatedMotor(rightMotorPort, 'L');
+    movement = new Motor(ev3);
+    // distanceMeasureSensor = new Ultrasonic();
   }
 
-  public void setUltrasonicSensorPort(String port) {
-    this.ultraSonicPort = port;
+  public void setDistanceSensorPort(String port) {
+    // this.DistanceMeasurePort = port;
   }
 
   public void setWheelSizeInCm(double wheelSize) {
     this.wheelSize = wheelSize * Units.cm;
+  }
+
+  public void setMovement(Direction direction) {
+    switch (direction) {
+    case FORWARD:
+      movement.forward();
+      break;
+    case REVERSE:
+    case BACKWARD:
+      movement.backward();
+      break;
+    case LEFT:
+    case SHARP_LEFT:
+      movement.left();
+      break;
+    case RIGHT:
+    case SHARP_RIGHT:
+      movement.right();
+      break;
+    default:
+    }
+    movement.close();
   }
 
   /*
@@ -58,5 +109,9 @@ class RemoteRobot {
 
   public RMIRegulatedMotor getRightMotor() {
     return this.rightMotor;
+  }
+
+  public void moveForward() {
+
   }
 }
