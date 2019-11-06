@@ -14,13 +14,13 @@ public class Motor {
   RMIRegulatedMotor MHøyre;
 
   public Motor(RemoteEV3 ev3) {
-    this.ev3 = ev3;
+    // this.ev3 = ev3;
     this.MHøyre = ev3.createRegulatedMotor("C", 'L');
     this.MVenstre = ev3.createRegulatedMotor("A", 'L');
   }
 
-  private void createLeft() { this.MVenstre = ev3.createRegulatedMotor("A", 'L'); }
-  private void createRight() { this.MHøyre = ev3.createRegulatedMotor("C", 'L'); }
+  private void createLeft() { this.MVenstre = this.ev3.createRegulatedMotor("A", 'L'); }
+  private void createRight() { this.MHøyre = this.ev3.createRegulatedMotor("C", 'L'); }
 
   public void close() throws RemoteException {
     this.MVenstre.close();
@@ -29,8 +29,8 @@ public class Motor {
 
   public void stop() throws RemoteException {
     try {
-      MVenstre.stop(true);
-      MHøyre.stop(true);
+      this.MVenstre.stop(true);
+      this.MHøyre.stop(true);
     } catch(RemoteException e) {
       throw e;
     }
@@ -40,20 +40,20 @@ public class Motor {
     try {
       createRight();
       
-      MHøyre.backward();
+      this.MHøyre.backward();
 
       Thread.sleep(2000);
 
-      MHøyre.close();
+      this.MHøyre.close();
 
       if (Thread.interrupted()) {
-        MVenstre.close();
-        MHøyre.close();
+        this.MVenstre.close();
+        this.MHøyre.close();
       }
 
     } catch (InterruptedException e) {
-      MVenstre.close();
-      MHøyre.close();
+      this.MVenstre.close();
+      this.MHøyre.close();
     } catch (RemoteException e) {
       throw e;
     }
@@ -63,18 +63,18 @@ public class Motor {
     try {
       createLeft();
 
-      MVenstre.backward();
+      this.MVenstre.backward();
       Thread.sleep(2000);
-      MVenstre.close();
+      this.MVenstre.close();
 
       if (Thread.interrupted()) {
-        MVenstre.close();
-        MHøyre.close();
+        this.MVenstre.close();
+        this.MHøyre.close();
       }
 
     } catch (InterruptedException e) {
-      MVenstre.close();
-      MHøyre.close();
+      this.MVenstre.close();
+      this.MHøyre.close();
     } catch (RemoteException e) {
       throw e;
     }
@@ -85,21 +85,21 @@ public class Motor {
       createRight();
       createLeft();
 
-      MVenstre.forward();
-      MHøyre.forward();
+      this.MVenstre.forward();
+      this.MHøyre.forward();
 
       Thread.sleep(2000);
-      MVenstre.close();
-      MHøyre.close();
+      this.MVenstre.close();
+      this.MHøyre.close();
 
       if (Thread.interrupted()) {
-        MVenstre.close();
-        MHøyre.close();
+        this.MVenstre.close();
+        this.MHøyre.close();
       }
 
     } catch (InterruptedException e) {
-      MVenstre.close();
-      MHøyre.close();
+      this.MVenstre.close();
+      this.MHøyre.close();
     } catch (RemoteException e) {
       throw e;
     }
@@ -107,25 +107,25 @@ public class Motor {
 
   public void forward() throws RemoteException {
     try {
-      createRight();
-      createLeft();
+      // createRight();
+      // createLeft();
 
-      MVenstre.backward();
-      MHøyre.backward();
+      this.MVenstre.backward();
+      this.MHøyre.backward();
 
       Thread.sleep(2000);
 
-      MVenstre.close();
-      MHøyre.close();
+      this.MVenstre.close();
+      this.MHøyre.close();
 
       if (Thread.interrupted()) {
-        MVenstre.close();
-        MHøyre.close();
+        this.MVenstre.close();
+        this.MHøyre.close();
       }
 
     } catch (InterruptedException e) {
-      MVenstre.close();
-      MHøyre.close();
+      this.MVenstre.close();
+      this.MHøyre.close();
     } catch (RemoteException e) {
       throw e;
     }

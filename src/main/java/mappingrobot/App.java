@@ -33,8 +33,9 @@ public class App {
     Thread current = new Thread();
 
     try {
-      bot = new RemoteRobot();
-      final RemoteEV3 ev3 = bot.getEV3();
+      // bot = new RemoteRobot();
+      // final RemoteEV3 ev3 = bot.getEV3();
+      final RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
       ev3.setDefault();
 
       do {
@@ -66,7 +67,6 @@ public class App {
       } while (true);
     } catch (RemoteException e) {
       System.out.println(e);
-      throw e;
     }
   }
 
