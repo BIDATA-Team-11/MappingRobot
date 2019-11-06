@@ -24,6 +24,7 @@ class RemoteRobot {
   private RemoteEV3 ev3 = null;
   private Port colorSensorPort = null;
   private Chassis chassis = null;
+  private Motor movement = null;
 
   public static enum Direction {
     /** Turn right while driving. */
@@ -42,7 +43,7 @@ class RemoteRobot {
     FORWARD,
 
     /** Movements are carried out int backwards direction. */
-    REVERSE,
+    REVERSE, BACKWARD,
 
     /** Stop. */
     STOP
@@ -52,6 +53,7 @@ class RemoteRobot {
     RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
     leftMotor = ev3.createRegulatedMotor(leftMotorPort, 'L');
     rightMotor = ev3.createRegulatedMotor(rightMotorPort, 'L');
+    movement = new Motor(ev3);
     // distanceMeasureSensor = new Ultrasonic();
   }
 
@@ -61,6 +63,28 @@ class RemoteRobot {
 
   public void setWheelSizeInCm(double wheelSize) {
     this.wheelSize = wheelSize * Units.cm;
+  }
+
+  public void setMovement(Direction direction) {
+    switch (direction) {
+    case FORWARD:
+      movement.forward();
+      break;
+    case REVERSE:
+    case BACKWARD:
+      movement.backward();
+      break;
+    case LEFT:
+    case SHARP_LEFT:
+      movement.left();
+      break;
+    case RIGHT:
+    case SHARP_RIGHT:
+      movement.right();
+      break;
+    default:
+    }
+    movement.close();
   }
 
   /*
