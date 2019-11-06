@@ -84,6 +84,7 @@ public class App {
     Motor motor = new Motor(ev3);
 
     motor.forward();
+    motor.backward();
     Thread.sleep(1000);
     motor.stop();
   }
