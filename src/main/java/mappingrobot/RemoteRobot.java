@@ -51,8 +51,8 @@ class RemoteRobot {
 
   RemoteRobot() throws RemoteException, MalformedURLException, NotBoundException {
     RemoteEV3 ev3 = new RemoteEV3("10.0.1.1");
-    leftMotor = ev3.createRegulatedMotor(leftMotorPort, 'L');
-    rightMotor = ev3.createRegulatedMotor(rightMotorPort, 'L');
+    // leftMotor = ev3.createRegulatedMotor(leftMotorPort, 'L');
+    // rightMotor = ev3.createRegulatedMotor(rightMotorPort, 'L');
     movement = new Motor(ev3);
     // distanceMeasureSensor = new Ultrasonic();
   }
@@ -65,7 +65,7 @@ class RemoteRobot {
     this.wheelSize = wheelSize * Units.cm;
   }
 
-  public void setMovement(Direction direction) {
+  public void setMovement(Direction direction) throws RemoteException {
     switch (direction) {
     case FORWARD:
       movement.forward();
