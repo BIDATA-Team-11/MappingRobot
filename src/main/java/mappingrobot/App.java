@@ -4,7 +4,6 @@ import lejos.remote.ev3.RMIRemoteKey;
 import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RMIRegulatedMotor;
 import java.rmi.RemoteException;
-import java.lang.InterruptedException;
 
 /**
  * LejOS Klient for Legorobotprosjekt 2019
@@ -40,32 +39,29 @@ public class App {
 
       do {
         switch (ev3.getKeys().waitForAnyPress()) {
-        case RMIRemoteKey.RIGHT:
-          System.out.println("Right");
-          break;
+          case RMIRemoteKey.RIGHT:
+            System.out.println("Right");
+            break;
 
-        case RMIRemoteKey.LEFT:
-          System.out.println("Left");
+          case RMIRemoteKey.LEFT:
+            System.out.println("Left");
 
-          current = new Thread(new Runnable() {
-            public void run() {
-              try {
-                start();
-              } catch (RemoteException e) {
-                System.out.println("Feil: " + e);
-              } catch (Exception e) {
-                System.out.println(e);
-              }
-            }
-          });
+            current = new Thread(new Runnable() {
+              public void run() {
+                try {
+                  start(ev3);
+                } catch (Exception  e) {
+                  System.out.println("Feil: "+e);
+                }
+              }});
 
-          current.start();
-          break;
+            current.start();
+            break;
 
-        case RMIRemoteKey.DOWN:
-          System.out.println("Down");
-          current.interrupt();
-          break;
+          case RMIRemoteKey.DOWN:
+            System.out.println("Down");
+            current.interrupt();
+            break;
         }
       } while (true);
     } catch (RemoteException e) {
@@ -84,33 +80,11 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start() throws Exception {
-    RMIRegulatedMotor MVenstre = bot.getLeftMotor();
-    RMIRegulatedMotor MHøyre = bot.getRightMotor();
+  public static void start(RemoteEV3 ev3) throws Exception {
+    Motor motor = new Motor(ev3);
 
-    try {
-      System.out.println("Trying motor");
-
-      MVenstre.forward();
-      MHøyre.forward();
-      Thread.sleep(2000);
-
-      MVenstre.stop(true);
-      MHøyre.stop(true);
-
-      MVenstre.close();
-      MHøyre.close();
-
-      if (Thread.interrupted()) {
-        MVenstre.close();
-        MHøyre.close();
-      }
-
-    } catch (InterruptedException e) {
-      MVenstre.close();
-      MHøyre.close();
-    } catch (RemoteException e) {
-      throw e;
-    }
+    motor.forward();
+    Thread.sleep(1000);
+    motor.stop();
   }
 }
