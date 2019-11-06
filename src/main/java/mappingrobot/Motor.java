@@ -17,14 +17,19 @@ public class Motor {
     this.ev3 = ev3;
   }
 
-  private void createLeft() { this.MVenstre = this.ev3.createRegulatedMotor("A", 'L'); }
-  private void createRight() { this.MHøyre = this.ev3.createRegulatedMotor("C", 'L'); }
+  private void createLeft() {
+    this.MVenstre = this.ev3.createRegulatedMotor("A", 'L');
+  }
+
+  private void createRight() {
+    this.MHøyre = this.ev3.createRegulatedMotor("C", 'L');
+  }
 
   public void close() throws RemoteException {
     try {
       this.MVenstre.close();
       this.MHøyre.close();
-    } catch(RemoteException e) {
+    } catch (RemoteException e) {
       throw e;
     }
   }
@@ -34,7 +39,7 @@ public class Motor {
       this.MVenstre.stop(true);
       this.MHøyre.stop(true);
       close();
-    } catch(RemoteException e) {
+    } catch (RemoteException e) {
       throw e;
     }
   }
@@ -43,7 +48,7 @@ public class Motor {
     try {
       createRight();
       createLeft();
-      
+
       this.MHøyre.backward();
       this.MVenstre.stop(true);
 
