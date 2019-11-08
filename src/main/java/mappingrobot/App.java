@@ -3,6 +3,7 @@ package mappingrobot;
 import lejos.remote.ev3.RMIRemoteKey;
 import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RMIRegulatedMotor;
+import java.io.IOException;
 import java.rmi.RemoteException;
 
 /**
@@ -92,13 +93,13 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start(RemoteEV3 ev3) throws Exception {
-    try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
+  public static void start(RemoteEV3 ev3) throws IOException {
+    try (Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
       float distance = sonic.getDistance();
       System.out.println(distance);
     }
 
-    try(Motor motor = new Motor(ev3)) {
+    try (Motor motor = new Motor(ev3)) {
 
     }
 
