@@ -96,52 +96,91 @@ public class App {
    */
   public static void start(final RemoteEV3 ev3) throws Exception {
 
-    Thread kjør = new Thread(new Runnable() {
+    // Gyro gyroTemp = new Gyro(ev3, "S2");
+    // float angle;
+    // angle = gyroTemp.getAngle();
+    // System.out.println(angle);
+    // Thread.sleep(1000);
+    // angle = gyroTemp.getAngle();
+    // System.out.println(angle);
+    // gyroTemp.close();
+    
+    Thread gyro = new Thread(new Runnable() {
       public void run() {
-        try(Motor motor = new Motor(ev3)) { 
+        try(Gyro gyro = new Gyro(ev3, "S2")) { 
+          float angle;
           while(true) {
             if (Thread.interrupted()) {
-              motor.close();
+              gyro.close();
             } else {
-              motor.forward();
+              angle = gyro.getAngle();
+              System.out.println(angle);
+              Thread.sleep(1000);
             }
           } 
-        } 
-        catch (RemoteException e) { }
+        } catch(RemoteException e) {
+        } catch (IOException e) {
+        } catch (InterruptedException e) {
+        } catch (Exception e) {
+        }
       }
     });
 
-
-    Thread radar = new Thread(new Runnable() {
-      public void run() {
-        try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
-          float distance;
-          while(true) {
-            if (Thread.interrupted()) {
-              sonic.close();
-            } else {
-              distance = sonic.getDistance();
-              System.out.println(distance);
-              Thread.sleep(1000);
-            }
-          }
-        } catch(RemoteException e) {
-        } catch (InterruptedException e) {
-        } catch (IOException e) {
-        } catch (Exception e) {
-        }
-      }     
-    });
-
     try {
-      radar.start();
-      kjør.start();
-      radar.join();
-      kjør.join();
+      gyro.start();
+      gyro.join();
     } catch (InterruptedException e) {
-      kjør.interrupt();
-      radar.interrupt();
+      gyro.interrupt();
     }
+
+    // Thread kjør = new Thread(new Runnable() {
+    //   public void run() {
+    //     try(Motor motor = new Motor(ev3)) { 
+    //       while(true) {
+    //         if (Thread.interrupted()) {
+    //           motor.close();
+    //         } else {
+    //           motor.forward();
+    //         }
+    //       } 
+    //     } catch (RemoteException e) { }
+    //   }
+    // });
+
+
+    // Thread radar = new Thread(new Runnable() {
+    //   public void run() {
+    //     try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
+    //       float distance;
+    //       while(true) {
+    //         if (Thread.interrupted()) {
+    //           sonic.close();
+    //         } else {
+    //           distance = sonic.getDistance();
+    //           System.out.println(distance);
+    //           Thread.sleep(1000);
+    //         }
+    //       }
+    //     } catch(RemoteException e) {
+    //     } catch (InterruptedException e) {
+    //     } catch (IOException e) {
+    //     } catch (Exception e) {
+    //     }
+    //   }     
+    // });
+
+    // try {
+    //   gyro.start();
+    //   gyro.join();
+    //   radar.start();
+    //   kjør.start();
+    //   radar.join();
+    //   kjør.join();
+    // } catch (InterruptedException e) {
+    //   gyro.interrupt();
+    //   kjør.interrupt();
+    //   radar.interrupt();
+    // }
 
     // Ultrasonic sonic = new Ultrasonic(ev3, "S1");
     // float distance = sonic.getDistance();
