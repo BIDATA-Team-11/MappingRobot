@@ -14,17 +14,14 @@ public class Motor implements AutoCloseable {
   private RMIRegulatedMotor MVenstre;
   private RMIRegulatedMotor MHøyre;
 
-  public Motor(RemoteEV3 ev3) {
+  public Motor(RemoteEV3 ev3) { 
     this.ev3 = ev3;
-  }
-
-  private void createLeft() {
     this.MVenstre = this.ev3.createRegulatedMotor("A", 'L');
-  }
-
-  private void createRight() {
     this.MHøyre = this.ev3.createRegulatedMotor("C", 'L');
+
   }
+  private void createLeft() { this.MVenstre = this.ev3.createRegulatedMotor("A", 'L'); }
+  private void createRight() { this.MHøyre = this.ev3.createRegulatedMotor("C", 'L'); }
 
   @Override
   public void close() throws RemoteException {
@@ -42,59 +39,61 @@ public class Motor implements AutoCloseable {
   }
 
   public void left() throws RemoteException {
-    try {
+    // try {
       createRight();
       createLeft();
 
       this.MHøyre.backward();
       this.MVenstre.stop(true);
 
-      Thread.sleep(2000);
+      // Thread.sleep(2000);
 
-    } catch (InterruptedException e) {
-      close();
-    }
+    // } catch (InterruptedException e) {
+    //   close();
+    // }
   }
 
   public void right() throws RemoteException {
-    try {
+    // try {
       createRight();
       createLeft();
 
       this.MVenstre.backward();
       this.MHøyre.stop(true);
 
-      Thread.sleep(2000);
+      // Thread.sleep(2000);
 
-    } catch (InterruptedException e) {
-      close();
-    }
+    // } catch (InterruptedException e) {
+    //   close();
+    // }
   }
 
   public void backward() throws RemoteException {
-    try {
+    // try {
       createRight();
       createLeft();
 
       this.MVenstre.forward();
       this.MHøyre.forward();
 
-      Thread.sleep(2000);
+      // Thread.sleep(2000);
 
-    } catch (InterruptedException e) {
-      close();
-    }
+    // } catch (InterruptedException e) {
+    //   close();
+    // }
   }
 
   public void forward() throws RemoteException {
     try {
-      createRight();
-      createLeft();
+      // createRight();
+      // createLeft();
 
       this.MVenstre.backward();
       this.MHøyre.backward();
+      // close();
 
-      Thread.sleep(2000);
+      // Thread.sleep(2000);
+      Thread.sleep(10);
 
     } catch (InterruptedException e) {
       close();
