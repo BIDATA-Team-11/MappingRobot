@@ -98,7 +98,15 @@ public class App {
 
     Thread kjør = new Thread(new Runnable() {
       public void run() {
-        try(Motor motor = new Motor(ev3)) { while(true) {motor.forward(); } } 
+        try(Motor motor = new Motor(ev3)) { 
+          while(true) {
+            if (Thread.interrupted()) {
+              motor.close();
+            } else {
+              motor.forward();
+            }
+          } 
+        } 
         catch (RemoteException e) { }
       }
     });
@@ -109,9 +117,13 @@ public class App {
         try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
           float distance;
           while(true) {
-            distance = sonic.getDistance();
-            System.out.println(distance);
-            Thread.sleep(1000);
+            if (Thread.interrupted()) {
+              sonic.close();
+            } else {
+              distance = sonic.getDistance();
+              System.out.println(distance);
+              Thread.sleep(1000);
+            }
           }
         } catch(RemoteException e) {
         } catch (InterruptedException e) {
@@ -121,10 +133,15 @@ public class App {
       }     
     });
 
-    radar.start();
-    kjør.start();
-    radar.join();
-    kjør.join();
+    try {
+      radar.start();
+      kjør.start();
+      radar.join();
+      kjør.join();
+    } catch (InterruptedException e) {
+      kjør.interrupt();
+      radar.interrupt();
+    }
 
     // Ultrasonic sonic = new Ultrasonic(ev3, "S1");
     // float distance = sonic.getDistance();
