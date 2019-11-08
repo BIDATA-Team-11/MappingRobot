@@ -4,6 +4,8 @@ import lejos.remote.ev3.RMIRemoteKey;
 import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RMIRegulatedMotor;
 import java.rmi.RemoteException;
+import java.lang.InterruptedException;
+import java.io.IOException;
 
 /**
  * LejOS Klient for Legorobotprosjekt 2019
@@ -92,19 +94,58 @@ public class App {
    * @see ColorSensor
    * @see Robot
    */
-  public static void start(RemoteEV3 ev3) throws Exception {
-    try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
-      float distance = sonic.getDistance();
-      System.out.println(distance);
-    }
+  public static void start(final RemoteEV3 ev3) throws Exception {
+
+    Thread kjør = new Thread(new Runnable() {
+      public void run() {
+        try(Motor motor = new Motor(ev3)) { while(true) {motor.forward(); } } 
+        catch (RemoteException e) { }
+      }
+    });
+
+
+    Thread radar = new Thread(new Runnable() {
+      public void run() {
+        try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
+          float distance;
+          while(true) {
+            distance = sonic.getDistance();
+            System.out.println(distance);
+            Thread.sleep(1000);
+          }
+        } catch(RemoteException e) {
+        } catch (InterruptedException e) {
+        } catch (IOException e) {
+        } catch (Exception e) {
+        }
+      }     
+    });
+
+    radar.start();
+    kjør.start();
+    radar.join();
+    kjør.join();
 
     // Ultrasonic sonic = new Ultrasonic(ev3, "S1");
     // float distance = sonic.getDistance();
     // System.out.println(distance);
 
-    try(Motor motor = new Motor(ev3)) {
-      motor.forward();
-    }
+    // try(Motor motor = new Motor(ev3)) {
+    //   motor.forward();
+    // }
+
+    // try(SimpleMotor motor = new SimpleMotor(ev3)) {
+    //   motor.left();
+    //   Thread.sleep(2000);
+    //   motor.close();
+    //   motor.right();
+    //   Thread.sleep(2000);
+    //   motor.stop();
+    //   motor.rotate(90);
+    //   motor.close();
+    //   motor.rotate(-90);
+    //   motor.close();
+    // }
 
 //     Motor motor = new Motor(ev3);
 //     motor.forward();

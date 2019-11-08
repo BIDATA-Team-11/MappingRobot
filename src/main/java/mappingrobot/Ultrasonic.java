@@ -4,6 +4,7 @@ import java.io.IOException;
 import lejos.remote.ev3.RemoteEV3;
 import lejos.remote.ev3.RMISampleProvider;
 import java.rmi.RemoteException;
+import java.lang.InterruptedException;
 // import lejos.hardware.port.Port;
 
 /**
@@ -39,14 +40,19 @@ public class Ultrasonic implements AutoCloseable {
     this.sampleProvider = ev3.createSampleProvider(this.port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
   }
 
-  private void createSonic() {
-    // this.sampleProvider = ev3.createSampleProvider(this.port,
-    // "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
-  }
+  // private void createSonic() {
+  //   this.sampleProvider = ev3.createSampleProvider(this.port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
+  // }
 
   public float[] getSample() throws RemoteException {
-    float[] sample;
-    sample = this.sampleProvider.fetchSample();
+    // createSonic();
+    float[] sample = null; 
+    try {
+      sample = this.sampleProvider.fetchSample();
+      Thread.sleep(10);
+    } catch (InterruptedException e) {
+      this.sampleProvider.close();
+    }
     return sample;
   }
 
@@ -57,12 +63,8 @@ public class Ultrasonic implements AutoCloseable {
   // return this.sample[0] != Float.POSITIVE_INFINITY;
   // }
 
-  public float getDistance() throws RemoteException {
-    return getSample()[0];
-  }
+  public float getDistance() throws RemoteException { return getSample()[0]; }
 
   @Override
-  public void close() throws IOException {
-    this.sampleProvider.close();
-  }
+  public void close() throws IOException { this.sampleProvider.close(); }
 }

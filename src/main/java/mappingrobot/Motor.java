@@ -14,17 +14,14 @@ public class Motor implements AutoCloseable {
   private RMIRegulatedMotor MVenstre;
   private RMIRegulatedMotor MHøyre;
 
-  public Motor(RemoteEV3 ev3) {
+  public Motor(RemoteEV3 ev3) { 
     this.ev3 = ev3;
-  }
-
-  private void createLeft() {
     this.MVenstre = this.ev3.createRegulatedMotor("A", 'L');
-  }
-
-  private void createRight() {
     this.MHøyre = this.ev3.createRegulatedMotor("C", 'L');
+
   }
+  private void createLeft() { this.MVenstre = this.ev3.createRegulatedMotor("A", 'L'); }
+  private void createRight() { this.MHøyre = this.ev3.createRegulatedMotor("C", 'L'); }
 
   @Override
   public void close() throws RemoteException {
@@ -87,17 +84,19 @@ public class Motor implements AutoCloseable {
   }
 
   public void forward() throws RemoteException {
-    // try {
-      createRight();
-      createLeft();
+    try {
+      // createRight();
+      // createLeft();
 
       this.MVenstre.backward();
       this.MHøyre.backward();
+      // close();
 
       // Thread.sleep(2000);
+      Thread.sleep(10);
 
-    // } catch (InterruptedException e) {
-    //   close();
-    // }
+    } catch (InterruptedException e) {
+      close();
+    }
   }
 }
