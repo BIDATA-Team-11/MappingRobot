@@ -201,17 +201,67 @@ public class App {
       }
     });
 
+
+    Thread gyro = new Thread(new Runnable() {
+      public void run() {
+        try(Gyro gyro = new Gyro(ev3, "S2")) { 
+          float angle;
+          while(true) {
+            if (Thread.interrupted()) {
+              gyro.close();
+            } else {
+              angle = gyro.getAngle();
+              System.out.println(angle);
+              Thread.sleep(1000);
+            }
+          } 
+        } catch(RemoteException e) {
+        } catch (IOException e) {
+        } catch (InterruptedException e) {
+        } catch (Exception e) {
+        }
+      }
+    });
+
+    Thread farge = new Thread(new Runnable() {
+      public void run() {
+        try(Farge farge = new Farge(ev3, "S3")) { 
+          float colorID;
+          while(true) {
+            if (Thread.interrupted()) {
+              farge.close();
+            } else {
+              colorID = farge.getColor();
+              System.out.println(colorID);
+              Thread.sleep(1000);
+            }
+          } 
+        } catch(RemoteException e) {
+        } catch (IOException e) {
+        } catch (InterruptedException e) {
+        } catch (Exception e) {
+        }
+      }
+    });
+
     try {
-      radar.start();
-      motor.start();
-      kjør.start();
-      radar.join();
-      motor.join();
-      kjør.join();
+      // radar.start();
+      // motor.start();
+      // kjør.start();
+      gyro.start();
+      farge.start();
+
+      // radar.join();
+      // motor.join();
+      // kjør.join();
+      gyro.join();
+      farge.join();
     } catch (InterruptedException e) {
-      kjør.interrupt();
-      radar.interrupt();
-      motor.interrupt();
+      // kjør.interrupt();
+      // radar.interrupt();
+      // motor.interrupt();
+      gyro.interrupt();
+      farge.interrupt();
     }
 
     // Ultrasonic sonic = new Ultrasonic(ev3, "S1");
