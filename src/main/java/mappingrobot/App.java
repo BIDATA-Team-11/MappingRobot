@@ -104,7 +104,9 @@ public class App {
     Thread kjør = new Thread(new Runnable() {
       float offset_left = 0.30f;
       float offset_right = 0.50f;
-      float offset_front = 0.35f;
+      float offset_front = 0.50f;
+
+      boolean hinder = false;
 
       public void run() {
         try(Motor motor = new Motor(ev3)) {
@@ -117,15 +119,17 @@ public class App {
               if (melding.vinkel == 90) {
                 if (melding.distance < offset_left) {
                   motor.right();
-                } else if (melding.distance > offset_right) {
+                } else if ((melding.distance > offset_right) && !hinder) {
                   motor.left();
                 } else {
                   motor.forward();
                 }
               } else if (melding.vinkel == 0) {
                 if (melding.distance < offset_front) {
+                  hinder = true;
                   motor.right();
                 } else {
+                  hinder = false;
                   motor.forward();
                 }
               }
