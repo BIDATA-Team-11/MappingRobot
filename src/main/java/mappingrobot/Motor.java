@@ -45,48 +45,50 @@ public class Motor implements AutoCloseable {
   }
 
   public void left() throws RemoteException {
-    // try {
-    createRight();
-    createLeft();
+    try {
+    // createRight();
+    // createLeft();
 
-    this.MHøyre.backward();
-    this.MVenstre.stop(true);
+      this.MHøyre.backward();
+      this.MVenstre.stop(true);
 
-    // Thread.sleep(2000);
+      Thread.sleep(10);
 
-    // } catch (InterruptedException e) {
-    // close();
-    // }
+    } catch (InterruptedException e) {
+      close();
+    }
   }
 
   public void right() throws RemoteException {
-    // try {
-    createRight();
-    createLeft();
+    try {
+      // createRight();
+      // createLeft();
 
-    this.MVenstre.backward();
-    this.MHøyre.stop(true);
+      this.MVenstre.backward();
+      this.MHøyre.stop(true);
+      // close();
 
-    // Thread.sleep(2000);
+      // Thread.sleep(2000);
+      Thread.sleep(10);
 
-    // } catch (InterruptedException e) {
-    // close();
-    // }
+    } catch (InterruptedException e) {
+      close();
+    }
   }
 
   public void backward() throws RemoteException {
-    // try {
-    createRight();
-    createLeft();
+    try {
+      // createRight();
+      // createLeft();
 
-    this.MVenstre.forward();
-    this.MHøyre.forward();
+      this.MVenstre.forward();
+      this.MHøyre.forward();
 
-    // Thread.sleep(2000);
+      Thread.sleep(10);
 
-    // } catch (InterruptedException e) {
-    // close();
-    // }
+    } catch (InterruptedException e) {
+      close();
+    }
   }
 
   public void forward() throws RemoteException {

@@ -13,9 +13,13 @@ public class SimpleMotor implements AutoCloseable {
 
   private RemoteEV3 ev3;
   private RMIRegulatedMotor motor;
+  private String port;
 
-  public SimpleMotor(RemoteEV3 ev3) { this.ev3 = ev3; }
-  private void createMotor() { this.motor = this.ev3.createRegulatedMotor("B", 'M'); }
+  public SimpleMotor(RemoteEV3 ev3, String port) { 
+    this.ev3 = ev3; this.port = port; 
+    this.motor = this.ev3.createRegulatedMotor(this.port, 'M'); 
+  }
+  private void createMotor() { this.motor = this.ev3.createRegulatedMotor(this.port, 'M'); }
 
   @Override
   public void close() throws RemoteException {
@@ -24,7 +28,8 @@ public class SimpleMotor implements AutoCloseable {
   }
 
   public void stop() throws RemoteException { this.motor.stop(true); }
-  public void rotate(int angle) throws RemoteException { createMotor(); this.motor.rotateTo(angle); }
+  // public void rotate(int angle) throws RemoteException { createMotor(); this.motor.rotateTo(angle); }
+  public void rotate(int angle) throws RemoteException { this.motor.rotateTo(angle); }
 
   public void left() throws RemoteException {
     // try {

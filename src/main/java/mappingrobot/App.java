@@ -6,6 +6,8 @@ import lejos.remote.ev3.RMIRegulatedMotor;
 import java.rmi.RemoteException;
 import java.lang.InterruptedException;
 import java.io.IOException;
+import java.util.concurrent.LinkedBlockingQueue;
+import java.util.HashMap;
 
 /**
  * LejOS Klient for Legorobotprosjekt 2019
@@ -95,38 +97,100 @@ public class App {
    * @see Robot
    */
   public static void start(final RemoteEV3 ev3) throws Exception {
+    final LinkedBlockingQueue<Integer> vinkel = new LinkedBlockingQueue<Integer>();
+    final LinkedBlockingQueue<Melding> klar = new LinkedBlockingQueue<Melding>();
+
 
     Thread kjør = new Thread(new Runnable() {
+      float offset_left = 0.30f;
+      float offset_right = 0.50f;
+      float offset_front = 0.35f;
+
       public void run() {
         try(Motor motor = new Motor(ev3)) {
           while(true) {
             if (Thread.interrupted()) {
               motor.close();
             } else {
-              motor.forward();
+              Melding melding = klar.take();
+
+              if (melding.vinkel == 90) {
+                if (melding.distance < offset_left) {
+                  motor.right();
+                } else if (melding.distance > offset_right) {
+                  motor.left();
+                } else {
+                  motor.forward();
+                }
+              } else if (melding.vinkel == 0) {
+                if (melding.distance < offset_front) {
+                  motor.right();
+                } else {
+                  motor.forward();
+                }
+              }
+
+              // motor.forward();
             }
           }
-        }
-        catch (RemoteException e) { }
+        } catch (RemoteException e) { }
+        catch (InterruptedException e) {}
       }
     });
 
 
+    Thread motor = new Thread(new Runnable() {
+      public void run() {
+        try(SimpleMotor motor = new SimpleMotor(ev3, "B")) {
+          boolean done = false;
+
+          while(true) {
+            if (Thread.interrupted()) {
+              motor.rotate(0);
+              motor.close();
+            } else {
+              if (done) {
+                motor.rotate(0);
+                vinkel.add(0);
+                done = false;
+              } else {
+                motor.rotate(-90);
+                vinkel.add(90);
+                done = true;
+              }
+            }
+          }
+        } catch(RemoteException e) {
+        // } catch (InterruptedException e) {
+          // motor.rotate(0);
+          // motor.close();
+        }
+      }
+    });
+
     Thread radar = new Thread(new Runnable() {
       public void run() {
         try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
-          float distance;
+          Float distance;
           while(true) {
             if (Thread.interrupted()) {
               sonic.close();
             } else {
-              distance = sonic.getDistance();
-              System.out.println(distance);
-              Thread.sleep(1000);
+              Integer v = vinkel.take();
+              if (v.intValue() == 90 || v.intValue() == 0) {
+                distance = Float.valueOf(sonic.getDistance());
+                System.out.println(distance);
+                if (!distance.isInfinite()) {
+                  klar.add(new Melding(v, distance));
+                } else {
+                  klar.add(new Melding(v, Float.valueOf(2.0f)));
+                }
+              }
+              // Thread.sleep(1000);
             }
           }
         } catch(RemoteException e) {
-        } catch (InterruptedException e) {
+        // } catch (InterruptedException e) {
         } catch (IOException e) {
         } catch (Exception e) {
         }
@@ -135,12 +199,15 @@ public class App {
 
     try {
       radar.start();
+      motor.start();
       kjør.start();
       radar.join();
+      motor.join();
       kjør.join();
     } catch (InterruptedException e) {
       kjør.interrupt();
       radar.interrupt();
+      motor.interrupt();
     }
 
     // Ultrasonic sonic = new Ultrasonic(ev3, "S1");
