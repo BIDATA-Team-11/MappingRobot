@@ -64,6 +64,7 @@ public class App extends Application {
 
         case RMIRemoteKey.LEFT:
           System.out.println("Left");
+          primaryStage.show();
 
           current = new Thread(new Runnable() {
             public void run() {
@@ -189,14 +190,16 @@ public class App extends Application {
               motor.rotate(0);
               motor.close();
             } else {
-              if (done) {
-                motor.rotate(0);
-                vinkel.add(0);
-                done = false;
+              if (direction == RadarDir.LEFT) {
+                angle -= 10;
+                motor.rotate(angle);
+                motor.close();
+                direction = angle > -90 ? RadarDir.LEFT : RadarDir.RIGHT;
               } else {
-                motor.rotate(-90);
-                vinkel.add(90);
-                done = true;
+                angle += 10;
+                motor.rotate(angle);
+                motor.close();
+                direction = angle < 90 ? RadarDir.RIGHT : RadarDir.LEFT;
               }
             }
           }
