@@ -12,6 +12,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.application.Platform;
 
 /**
  * LejOS Client for Legorobotprosjekt 2019
@@ -29,11 +30,22 @@ public class App extends Application {
   static RemoteRobot bot = null;
 
   @Override
-  public void start(Stage primaryStage) throws Exception {
+  public void start(final Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("view/chart.fxml"));
     primaryStage.setTitle("MappingRobotChart");
     primaryStage.setScene(new Scene(root));
-    primaryStage.show();
+
+    new Thread(new Runnable() {
+      @Override
+      public void run() {
+        Platform.runLater(new Runnable() {
+          @Override
+          public void run() {
+            primaryStage.show();
+          }
+        });
+      }
+    }).start();
 
     Thread current = new Thread();
 
