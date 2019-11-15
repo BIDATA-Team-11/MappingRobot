@@ -44,6 +44,12 @@ public class Ultrasonic implements AutoCloseable {
   //   this.sampleProvider = ev3.createSampleProvider(this.port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
   // }
 
+  /**
+   * Method for sampling distance with the ultrasonic sensor.
+   *
+   * @return distance measured with the ultrasonic sensor.
+   * @throws RemoteException - Exception is thrown if an error occurs.
+   */
   public float[] getSample() throws RemoteException {
     // createSonic();
     float[] sample = null; 
@@ -63,8 +69,19 @@ public class Ultrasonic implements AutoCloseable {
   // return this.sample[0] != Float.POSITIVE_INFINITY;
   // }
 
+  /**
+   * Method for getting the distance measured by the ultrasonic sensor.
+   *
+   * @return the first value in the sample array, which measures distance.
+   * @throws RemoteException - Exception is thrown if an error occurs.
+   */
   public float getDistance() throws RemoteException { return getSample()[0]; }
 
+  /**
+   * Method for closing the ultrasonicsensor port.
+   *
+   * @throws IOException - Exception is thrown if an error occurs.
+   */
   @Override
   public void close() throws IOException { this.sampleProvider.close(); }
 }

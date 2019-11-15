@@ -70,8 +70,8 @@ public class Gyro implements AutoCloseable {
   // }
 
   /**
-   * Method that executes {@link #getSample()} and returns the first element in the array
-   * @return The element in the array given by {link Gyro#getSample}
+   * Method that executes {@link Gyro#getSample()} and returns the first element in the array
+   * @return The first element in the array given by {@link Gyro#getSample}
    * @throws RemoteException Throws a RemoteException if an error occurs
    */
   public float getAngle() throws RemoteException { return getSample()[0]; }
