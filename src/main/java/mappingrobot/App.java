@@ -2,15 +2,15 @@ package mappingrobot;
 
 import lejos.remote.ev3.RMIRemoteKey;
 import lejos.remote.ev3.RemoteEV3;
-import lejos.remote.ev3.RMIRegulatedMotor;
+//import lejos.remote.ev3.RMIRegulatedMotor;
 import java.rmi.RemoteException;
 import java.lang.InterruptedException;
 import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.HashMap;
+//import java.util.HashMap;
 
 /**
- * LejOS Klient for Legorobotprosjekt 2019
+ * LejOS Client for Legorobotprosjekt 2019
  *
  * @author Stian Selvåg
  * @author Herman Aagaard
@@ -18,17 +18,17 @@ import java.util.HashMap;
  * @author Joakim Skogø Langvand
  * @author Erling Sletta
  * @author Torbjørn Øverås
- * @author Gruppe 11, dataingeniør NTNU, første semester.
+ * @author Group 11, dataingeniør NTNU, første semester.
  * @version 2.0.0
  */
 public class App {
   static RemoteRobot bot = null;
 
   /**
-   * Main-metode for klienten. Her får man valget om å printe ut de fargene
-   * sensorene ser, kalibrere fargesensorene eller å få roboten til å kjøre.
+   * Main-method for the client. You get the choice to print out the colors
+   * the ColorSensor detects, calibrate the ColorSensor or make the robot drive.
    *
-   * @param args Argumenter blir ignorert. Heh.
+   * @param args Arguments will be ignored.
    */
   public static void main(String[] args) {
     System.out.println("1.0.0-remotebot");
@@ -89,10 +89,8 @@ public class App {
   /**
    * Starter selve legoroboten.
    *
-   * @param mainSensor       Hovedfargesensor. Står midt på fronten på roboten..
-   * @param correctionSensor Korrigeringssensor. Står til høyre for
-   *                         hovedfargesensor.
-   * @param robot            Hjelpeklasse for motorene.
+   * @param ColorSensor      Located in the center of the robotcar.
+   * @param robot            Assisting class for the motors.
    * @see ColorSensor
    * @see Robot
    */
@@ -204,7 +202,7 @@ public class App {
 
     Thread gyro = new Thread(new Runnable() {
       public void run() {
-        try(Gyro gyro = new Gyro(ev3, "S2")) { 
+        try(Gyro gyro = new Gyro(ev3, "S2")) {
           float angle;
           while(true) {
             if (Thread.interrupted()) {
@@ -214,7 +212,7 @@ public class App {
               System.out.println(angle);
               Thread.sleep(1000);
             }
-          } 
+          }
         } catch(RemoteException e) {
         } catch (IOException e) {
         } catch (InterruptedException e) {
@@ -225,7 +223,7 @@ public class App {
 
     Thread farge = new Thread(new Runnable() {
       public void run() {
-        try(Farge farge = new Farge(ev3, "S3")) { 
+        try(Farge farge = new Farge(ev3, "S3")) {
           float colorID;
           while(true) {
             if (Thread.interrupted()) {
@@ -235,7 +233,7 @@ public class App {
               System.out.println(colorID);
               Thread.sleep(1000);
             }
-          } 
+          }
         } catch(RemoteException e) {
         } catch (IOException e) {
         } catch (InterruptedException e) {
