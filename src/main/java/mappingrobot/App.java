@@ -28,6 +28,10 @@ import javafx.stage.Stage;
 public class App extends Application {
   static RemoteRobot bot = null;
 
+  enum RadarDir {
+    LEFT, RIGHT
+  }
+
   @Override
   public void start(Stage primaryStage) throws Exception {
     Parent root = FXMLLoader.load(getClass().getResource("view/chart.fxml"));
@@ -88,8 +92,8 @@ public class App extends Application {
   }
 
   /**
-   * Main-method for the client. You get the choice to print out the colors
-   * the ColorSensor detects, calibrate the ColorSensor or make the robot drive.
+   * Main-method for the client. You get the choice to print out the colors the
+   * ColorSensor detects, calibrate the ColorSensor or make the robot drive.
    *
    * @param args Arguments will be ignored.
    */
@@ -101,15 +105,14 @@ public class App extends Application {
   /**
    * Starter selve legoroboten.
    *
-   * @param ColorSensor      Located in the center of the robotcar.
-   * @param robot            Assisting class for the motors.
+   * @param ColorSensor Located in the center of the robotcar.
+   * @param robot       Assisting class for the motors.
    * @see ColorSensor
    * @see Robot
    */
   public static void start(final RemoteEV3 ev3) throws Exception {
     final LinkedBlockingQueue<Integer> vinkel = new LinkedBlockingQueue<Integer>();
     final LinkedBlockingQueue<Melding> klar = new LinkedBlockingQueue<Melding>();
-
 
     Thread kjør = new Thread(new Runnable() {
       float offset_left = 0.30f;
@@ -119,8 +122,8 @@ public class App extends Application {
       boolean hinder = false;
 
       public void run() {
-        try(Motor motor = new Motor(ev3)) {
-          while(true) {
+        try (Motor motor = new Motor(ev3)) {
+          while (true) {
             if (Thread.interrupted()) {
               motor.close();
             } else {
@@ -147,35 +150,45 @@ public class App extends Application {
               // motor.forward();
             }
           }
-        } catch (RemoteException e) { }
-        catch (InterruptedException e) {}
+        } catch (RemoteException e) {
+        } catch (InterruptedException e) {
+        }
       }
     });
 
-
     Thread motor = new Thread(new Runnable() {
       public void run() {
-        try(SimpleMotor motor = new SimpleMotor(ev3, "B")) {
-          boolean done = false;
-
-          while(true) {
+        try (SimpleMotor motor = new SimpleMotor(ev3, "B")) {
+          int angle = 0;
+          RadarDir direction = RadarDir.LEFT;
+          while (true) {
             if (Thread.interrupted()) {
               motor.rotate(0);
               motor.close();
             } else {
-              if (done) {
-                motor.rotate(0);
-                vinkel.add(0);
-                done = false;
+              if (direction == RadarDir.LEFT) {
+                angle -= 10;
+                motor.rotate(angle);
+                motor.close();
+                direction = angangle > -90 ? RadarDir.LEFT : RadarDir.RIGHT;
               } else {
-                motor.rotate(-90);
-                vinkel.add(90);
-                done = true;
+                angle += 10;
+                motor.rotate(angle);
+                motor.close();
+                direction = angangle < 90 ? RadarDir.RIGHT : RadarDir.LEFT;
               }
+              vinkel.add(angle);
+              // if (done) {
+              // motor.rotate(0);
+              // vinkel.add(0);
+              // } else {
+              // motor.rotate(-90);
+              // vinkel.add(90);
+              // }
             }
           }
-        } catch(RemoteException e) {
-        // } catch (InterruptedException e) {
+        } catch (RemoteException e) {
+          // } catch (InterruptedException e) {
           // motor.rotate(0);
           // motor.close();
         }
@@ -184,9 +197,9 @@ public class App extends Application {
 
     Thread radar = new Thread(new Runnable() {
       public void run() {
-        try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
+        try (Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
           Float distance;
-          while(true) {
+          while (true) {
             if (Thread.interrupted()) {
               sonic.close();
             } else {
@@ -203,20 +216,19 @@ public class App extends Application {
               // Thread.sleep(1000);
             }
           }
-        } catch(RemoteException e) {
-        // } catch (InterruptedException e) {
+        } catch (RemoteException e) {
+          // } catch (InterruptedException e) {
         } catch (IOException e) {
         } catch (Exception e) {
         }
       }
     });
 
-
     Thread gyro = new Thread(new Runnable() {
       public void run() {
-        try(Gyro gyro = new Gyro(ev3, "S2")) {
+        try (Gyro gyro = new Gyro(ev3, "S2")) {
           float angle;
-          while(true) {
+          while (true) {
             if (Thread.interrupted()) {
               gyro.close();
             } else {
@@ -225,7 +237,7 @@ public class App extends Application {
               Thread.sleep(1000);
             }
           }
-        } catch(RemoteException e) {
+        } catch (RemoteException e) {
         } catch (IOException e) {
         } catch (InterruptedException e) {
         } catch (Exception e) {
@@ -235,9 +247,9 @@ public class App extends Application {
 
     Thread farge = new Thread(new Runnable() {
       public void run() {
-        try(Farge farge = new Farge(ev3, "S3")) {
+        try (Farge farge = new Farge(ev3, "S3")) {
           float colorID;
-          while(true) {
+          while (true) {
             if (Thread.interrupted()) {
               farge.close();
             } else {
@@ -246,7 +258,7 @@ public class App extends Application {
               Thread.sleep(1000);
             }
           }
-        } catch(RemoteException e) {
+        } catch (RemoteException e) {
         } catch (IOException e) {
         } catch (InterruptedException e) {
         } catch (Exception e) {
@@ -254,27 +266,37 @@ public class App extends Application {
       }
     });
 
+    // Thread chart = new Thread(new Runnable() {
+    // public void run() {
     // try {
-      // radar.start();
-      // motor.start();
-      // kjør.start();
-      // gyro.start();
-      // farge.start();
-      // chart.start();
+    // LineChart mapping = new LineChart();
+    // } catchangangle (Exception e) {
+    // System.out.println(e);
+    // }
+    // }
+    // });
 
-      // radar.join();
-      // motor.join();
-      // kjør.join();
-      // gyro.join();
-      // farge.join();
-      // chart.join();
+    // try {
+    // radar.start();
+    // motor.start();
+    // kjør.start();
+    // gyro.start();
+    // farge.start();
+    // chart.start();
+
+    // radar.join();
+    // motor.join();
+    // kjør.join();
+    // gyro.join();
+    // farge.join();
+    // chart.join();
     // } catch (InterruptedException e) {
-      // kjør.interrupt();
-      // radar.interrupt();
-      // motor.interrupt();
-      // gyro.interrupt();
-      // farge.interrupt();
-      // chart.interrupt();
+    // kjør.interrupt();
+    // radar.interrupt();
+    // motor.interrupt();
+    // gyro.interrupt();
+    // farge.interrupt();
+    // chart.interrupt();
     // }
   }
 }
