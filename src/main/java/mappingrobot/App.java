@@ -117,11 +117,10 @@ public class App extends Application {
 
     Thread kjør = new Thread(new Runnable() {
       /**
+       *
        *  These floats sets the closest distance the robot should be before
        *  navigating to the opposite direction to avoid collosion.
-       *  @param offset_left
-       *  @param offset_right
-       *  @param offset_front
+       *
        */
       float offset_left = 0.30f;
       float offset_right = 0.50f;
@@ -176,7 +175,7 @@ public class App extends Application {
       /**
        *  RadarRotation
        *
-       *  This method controlls the motor of the rotating radar.
+       *  This method controls the motor of the rotating radar.
        *  It rotates 90 degrees to either direction and stops when the boolean
        *  done is true.
        *
@@ -213,12 +212,13 @@ public class App extends Application {
 
     Thread radar = new Thread(new Runnable() {
       /**
-       *  Pingsender
+       * Pingsender
        *
-       *  This method tells the ultrasonic sensor when it should ping and when it
-       *  should not. More detailed; when the rotation is at 0 and 90 degrees
-       *  the ultrasonic sensor should ping. Whenever its between those degrees
-       *  it doesn't ping.
+       * This method tells the ultrasonic sensor when it should ping and when it
+       * should not. More detailed; when the rotation is at 0 and 90 degrees
+       * the ultrasonic sensor should ping. Whenever its between those degrees
+       * it doesn't ping.
+       *
        */
       public void run() {
         try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
@@ -248,8 +248,13 @@ public class App extends Application {
       }
     });
 
-
     Thread gyro = new Thread(new Runnable() {
+      /**
+       * DirectionNavigator
+       *
+       * This method controls the direction and angle of the robotcar.
+       *
+       */
       public void run() {
         try(Gyro gyro = new Gyro(ev3, "S2")) {
           float angle;
@@ -271,6 +276,7 @@ public class App extends Application {
     });
 
     Thread farge = new Thread(new Runnable() {
+
       public void run() {
         try(Farge farge = new Farge(ev3, "S3")) {
           float colorID;
