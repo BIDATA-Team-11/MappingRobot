@@ -24,6 +24,12 @@ public class Gyro implements AutoCloseable {
   private RemoteEV3 ev3;
   private String port;
 
+  /**
+   * Constructor that requires and sets the EV3 and the port the sensor is connected to,
+   * as well as creating a sample provider for the given port, with a sensor name and mode name.
+   * @param ev3 The ev3 that's being input
+   * @param port The port the sensor is connected to
+   */
   public Gyro(RemoteEV3 ev3, String port) {
     this.port = port;
     this.ev3 = ev3;
@@ -39,6 +45,11 @@ public class Gyro implements AutoCloseable {
   //   this.sampleProvider = ev3.createSampleProvider(this.port, "lejos.hardware.sensor.EV3UltrasonicSensor", "Distance");
   // }
 
+  /**
+   * Method that fetches and returns a sample from the sensor
+   * @return sample angle from sensor
+   * @throws RemoteException Throws an exception if an error occurs
+   */
   public float[] getSample() throws RemoteException {
     // createSonic();
     float[] sample = null; 
@@ -58,8 +69,17 @@ public class Gyro implements AutoCloseable {
   // return this.sample[0] != Float.POSITIVE_INFINITY;
   // }
 
+  /**
+   * Method that executes {@link #getSample()} and returns the first element in the array
+   * @return The element in the array given by {link Gyro#getSample}
+   * @throws RemoteException Throws a RemoteException if an error occurs
+   */
   public float getAngle() throws RemoteException { return getSample()[0]; }
 
+  /**
+   * Override close method to close the sample provider
+   * @throws IOException Throws an IOException if an error occurs
+   */
   @Override
   public void close() throws IOException { this.sampleProvider.close(); }
 }
