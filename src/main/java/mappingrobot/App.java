@@ -28,7 +28,9 @@ import javafx.stage.Stage;
  * @version 2.0.0
  */
 public class App extends Application {
-  static RemoteRobot bot = null;
+  enum RadarDir {
+    LEFT, RIGHT
+  }
 
   @Override
   public void start(Stage primaryStage) throws Exception {
@@ -117,8 +119,8 @@ public class App extends Application {
     Thread kjør = new Thread(new Runnable() {
       /**
        *
-       *  These floats sets the closest distance the robot should be before
-       *  navigating to the opposite direction to avoid collosion.
+       * These floats sets the closest distance the robot should be before navigating
+       * to the opposite direction to avoid collosion.
        *
        */
       float minimumDistanceToObstacle = 0.30f;
@@ -171,6 +173,9 @@ public class App extends Application {
       public void run() {
         try (SimpleMotor motor = new SimpleMotor(ev3, "B")) {
           boolean done = false;
+
+          RadarDir direction;
+          int angle = 0;
 
           while (true) {
             if (Thread.interrupted()) {
