@@ -104,7 +104,7 @@ public class App extends Application {
 
     Application.launch(args);
   }
-  
+
 
   /**
    * Starts the robot.
@@ -163,15 +163,15 @@ public class App extends Application {
       }
     });
 
+    /**
+     * RadarRotation
+     *
+     * This method controlls the motor of the rotating radar. It rotates 90 degrees
+     * to either direction and stops when the boolean done is true.
+     *
+     */
     Thread motor = new Thread(new Runnable() {
 
-      /**
-       * RadarRotation
-       *
-       * This method controlls the motor of the rotating radar. It rotates 90 degrees
-       * to either direction and stops when the boolean done is true.
-       *
-       */
       public void run() {
         try (SimpleMotor motor = new SimpleMotor(ev3, "B")) {
           boolean done = false;
@@ -205,15 +205,16 @@ public class App extends Application {
       }
     });
 
+    /**
+     * Pingsender
+     *
+     * This method tells the ultrasonic sensor when it should ping and when it
+     * should not. More detailed; when the rotation is at 0 and 90 degrees the
+     * ultrasonic sensor should ping. Whenever its between those degrees it doesn't
+     * ping.
+     */
     Thread radar = new Thread(new Runnable() {
-      /**
-       * Pingsender
-       *
-       * This method tells the ultrasonic sensor when it should ping and when it
-       * should not. More detailed; when the rotation is at 0 and 90 degrees the
-       * ultrasonic sensor should ping. Whenever its between those degrees it doesn't
-       * ping.
-       */
+
       public void run() {
         try (Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
           Float distance;
@@ -238,13 +239,14 @@ public class App extends Application {
       }
     });
 
+    /**
+     * DirectionNavigator
+     *
+     * This method controls the direction and angle of the robotcar.
+     *
+     */
     Thread gyro = new Thread(new Runnable() {
-      /**
-       * DirectionNavigator
-       *
-       * This method controls the direction and angle of the robotcar.
-       *
-       */
+
       public void run() {
         try (Gyro gyro = new Gyro(ev3, "S2")) {
           float angle;
@@ -265,13 +267,14 @@ public class App extends Application {
       }
     });
 
-    Thread farge = new Thread(new Runnable() {
     /**
      * ColorFinder
-     * 
+     *
      * This method detects what color the ground is and proceeds to send it.
      *
      */
+    Thread farge = new Thread(new Runnable() {
+
       public void run() {
         try (Farge farge = new Farge(ev3, "S3")) {
           float colorID;
