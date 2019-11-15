@@ -264,7 +264,12 @@ public class App extends Application {
     });
 
     Thread farge = new Thread(new Runnable() {
-
+    /**
+     * ColorFinder
+     * 
+     * This method detects what color the ground is and proceeds to send it.
+     *
+     */
       public void run() {
         try (Farge farge = new Farge(ev3, "S3")) {
           float colorID;
