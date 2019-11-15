@@ -37,9 +37,8 @@ class PositionInfo {
   /**
    * PointMaker Radar
    *
-   * This method marks a point the EV3 finds through the ultrasonic sensor. This
-   * is done by taking its driven distance and adding it onto the distance the
-   * ultrasonic sensor detects through pytagoras.
+   * This method finds the point the EV3 detects through the ultrasonic sensor.
+   * It is done by multiplying the distance with the angles with pytagoras.
    *
    * @param  radarDistance
    * @param  radarAngle
@@ -55,9 +54,9 @@ class PositionInfo {
   /**
    * PointMaker Car
    *
-   * This method marks a point the EV3 finds through the ultrasonic sensor. This
-   * is done by taking its driven distance and adding it onto the distance the
-   * ultrasonic sensor detects through pytagoras.
+   * This method marks a point the EV3 finds through the ultrasonic sensor.
+   * It uses the angle of the ultrasonic sensor and the distance of the car to
+   * calculate a point for the obsticle ahead through pytagoras.
    *
    * @param  radarAngle
    * @param  robotAngle
@@ -75,7 +74,7 @@ class PositionInfo {
    * RPMCounter
    *
    * This method finds the driven distance through calculating the amount of rotations
-   * the wheels have done since the last check.
+   * the wheels have done since its last check.
    *
    * @param tachoCount
    */
