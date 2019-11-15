@@ -31,7 +31,6 @@ public class Motor implements AutoCloseable {
    * Constructer for setting value of ev3. It also pairs left and right motor with
    * ports.
    *
-   * @param ev3
    */
   public Motor(RemoteEV3 ev3) {
     this.ev3 = ev3;
@@ -57,7 +56,7 @@ public class Motor implements AutoCloseable {
   /**
    * Method for closing port A and C.
    *
-   * @throws RemoteException - Exception is thrown if an error occurss.
+   * @throws RemoteException Exception is thrown if an error occurss.
    */
   @Override
   public void close() throws RemoteException {
@@ -72,7 +71,7 @@ public class Motor implements AutoCloseable {
   /**
    * Method for stopping both motors.
    *
-   * @throws RemoteException - Exception is thrown if an error occurss.
+   * @throws RemoteException Exception is thrown if an error occurss.
    */
   public void stop() throws RemoteException {
     this.leftMotor.stop(true);
@@ -82,7 +81,7 @@ public class Motor implements AutoCloseable {
   /**
    * Method got making the car turn left.
    *
-   * @throws RemoteException - Exception is thrown if an error occurss.
+   * @throws RemoteException Exception is thrown if an error occurss.
    */
   public void left() throws RemoteException {
     try {
@@ -102,7 +101,7 @@ public class Motor implements AutoCloseable {
   /**
    * Method for making the car turn right.
    *
-   * @throws RemoteException - Exception is thrown if an error occurss.
+   * @throws RemoteException Exception is thrown if an error occurss.
    */
   public void right() throws RemoteException {
     try {
@@ -124,7 +123,7 @@ public class Motor implements AutoCloseable {
   /**
    * Method for making the motors drive backwards.
    *
-   * @throws RemoteException - Exception is thrown if an error occurss.
+   * @throws RemoteException Exception is thrown if an error occurss.
    */
   public void backward() throws RemoteException {
     try {
@@ -144,7 +143,7 @@ public class Motor implements AutoCloseable {
   /**
    * Method for making the motors drive forwards.
    *
-   * @throws RemoteException - Exception is thrown if an error occurss.
+   * @throws RemoteException Exception is thrown if an error occurss.
    */
   public void forward() throws RemoteException {
     try {
