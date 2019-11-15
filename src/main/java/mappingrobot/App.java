@@ -9,6 +9,12 @@ import java.io.IOException;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.HashMap;
 
+import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.stage.Stage;
+
 /**
  * LejOS Klient for Legorobotprosjekt 2019
  *
@@ -21,8 +27,16 @@ import java.util.HashMap;
  * @author Gruppe 11, dataingeniør NTNU, første semester.
  * @version 2.0.0
  */
-public class App {
+public class App extends Application {
   static RemoteRobot bot = null;
+
+  @Override
+  public void start(Stage primaryStage) throws Exception {
+    Parent root = FXMLLoader.load(getClass().getResource("view/chart.fxml"));
+    primaryStage.setTitle("MappingRobotChart");
+    primaryStage.setScene(new Scene(root));
+    primaryStage.show();
+  }
 
   /**
    * Main-metode for klienten. Her får man valget om å printe ut de fargene
@@ -33,6 +47,7 @@ public class App {
   public static void main(String[] args) {
     System.out.println("1.0.0-remotebot");
 
+    Application.launch(args);
     Thread current = new Thread();
 
     try {
@@ -244,56 +259,39 @@ public class App {
       }
     });
 
-    try {
+
+    // Thread chart = new Thread(new Runnable() {
+    //   public void run() {
+    //     try {
+    //       LineChart mapping = new LineChart();
+    //     } catch (Exception e) {
+    //       System.out.println(e);
+    //     }
+    //   }
+    // });
+
+
+    // try {
       // radar.start();
       // motor.start();
       // kjør.start();
-      gyro.start();
-      farge.start();
+      // gyro.start();
+      // farge.start();
+      // chart.start();
 
       // radar.join();
       // motor.join();
       // kjør.join();
-      gyro.join();
-      farge.join();
-    } catch (InterruptedException e) {
+      // gyro.join();
+      // farge.join();
+      // chart.join();
+    // } catch (InterruptedException e) {
       // kjør.interrupt();
       // radar.interrupt();
       // motor.interrupt();
-      gyro.interrupt();
-      farge.interrupt();
-    }
-
-    // Ultrasonic sonic = new Ultrasonic(ev3, "S1");
-    // float distance = sonic.getDistance();
-    // System.out.println(distance);
-
-    // try(Motor motor = new Motor(ev3)) {
-    //   motor.forward();
+      // gyro.interrupt();
+      // farge.interrupt();
+      // chart.interrupt();
     // }
-
-    // try(SimpleMotor motor = new SimpleMotor(ev3)) {
-    //   motor.left();
-    //   Thread.sleep(2000);
-    //   motor.close();
-    //   motor.right();
-    //   Thread.sleep(2000);
-    //   motor.stop();
-    //   motor.rotate(90);
-    //   motor.close();
-    //   motor.rotate(-90);
-    //   motor.close();
-    // }
-
-//     Motor motor = new Motor(ev3);
-//     motor.forward();
-    // Motor motor = new Motor(ev3);
-
-    // motor.forward();
-    // motor.backward();
-    // motor.right();
-    // motor.left();
-    // Thread.sleep(1000);
-    // motor.stop();
   }
 }
