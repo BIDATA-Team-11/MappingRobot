@@ -17,6 +17,7 @@ import java.lang.InterruptedException;
  * @author Joakim Skogø Langvand
  * @author Erling Sletta
  * @author Torbjørn Øverås
+ * @author Gruppe 11, dataingeniør NTNU, første semester.
  */
 public class Motor implements AutoCloseable {
 
