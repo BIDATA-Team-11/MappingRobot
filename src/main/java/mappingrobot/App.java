@@ -47,37 +47,37 @@ public class App extends Application {
 
       do {
         switch (ev3.getKeys().waitForAnyPress()) {
-          case RMIRemoteKey.RIGHT:
-            System.out.println("Right");
-            break;
+        case RMIRemoteKey.RIGHT:
+          System.out.println("Right");
+          break;
 
-          case RMIRemoteKey.LEFT:
-            System.out.println("Left");
-            primaryStage.show();
+        case RMIRemoteKey.LEFT:
+          System.out.println("Left");
+          primaryStage.show();
 
-            current = new Thread(new Runnable() {
-              public void run() {
-                try {
-                  start(ev3);
-                } catch (RemoteException e) {
-                  System.out.println("Error: " + e.getMessage());
-                  System.out.println("Here's the stacktrace. You figure it out.\n");
-                  e.printStackTrace();
-                } catch (Exception e) {
-                  System.out.println("Error: " + e.getMessage());
-                  System.out.println("Here's the stacktrace. You figure it out.\n");
-                  e.printStackTrace();
-                }
+          current = new Thread(new Runnable() {
+            public void run() {
+              try {
+                start(ev3);
+              } catch (RemoteException e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
+              } catch (Exception e) {
+                System.out.println("Error: " + e.getMessage());
+                System.out.println("Here's the stacktrace. You figure it out.\n");
+                e.printStackTrace();
               }
-            });
+            }
+          });
 
-            current.start();
-            break;
+          current.start();
+          break;
 
-          case RMIRemoteKey.DOWN:
-            System.out.println("Down");
-            current.interrupt();
-            break;
+        case RMIRemoteKey.DOWN:
+          System.out.println("Down");
+          current.interrupt();
+          break;
         }
       } while (true);
     } catch (RemoteException e) {
@@ -170,12 +170,12 @@ public class App extends Application {
                 angle -= 10;
                 motor.rotate(angle);
                 motor.close();
-                direction = angangle > -90 ? RadarDir.LEFT : RadarDir.RIGHT;
+                direction = angle > -90 ? RadarDir.LEFT : RadarDir.RIGHT;
               } else {
                 angle += 10;
                 motor.rotate(angle);
                 motor.close();
-                direction = angangle < 90 ? RadarDir.RIGHT : RadarDir.LEFT;
+                direction = angle < 90 ? RadarDir.RIGHT : RadarDir.LEFT;
               }
               vinkel.add(angle);
               // if (done) {
