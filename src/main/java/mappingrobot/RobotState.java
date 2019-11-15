@@ -74,7 +74,7 @@ class PositionInfo {
    * RPMCounter
    *
    * This method finds the driven distance through calculating the amount of rotations
-   * the wheels have done since the last check.
+   * the wheels have done since its last check.
    *
    * @param tachoCount
    */
