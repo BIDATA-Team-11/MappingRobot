@@ -35,12 +35,15 @@ class PositionInfo {
     return new Point((int) positionX, (int) positionY);
   }
   /**
+   * PointMaker Radar
    *
    * This method marks a point the EV3 finds through the ultrasonic sensor. This
    * is done by taking its driven distance and adding it onto the distance the
-   * ultrasonic sensor detects through pytagoras.   * @param  radarDistance
+   * ultrasonic sensor detects through pytagoras.
+   *
+   * @param  radarDistance
    * @param  radarAngle
-   * @return
+   * @return radarPoint
    */
   public Point getAbsolutePointFromReading(float radarDistance, float radarAngle) {
     Point robotPosition = getRobotPosition();
@@ -50,7 +53,7 @@ class PositionInfo {
     return radarPoint;
   }
   /**
-   * PointMaker
+   * PointMaker Car
    *
    * This method marks a point the EV3 finds through the ultrasonic sensor. This
    * is done by taking its driven distance and adding it onto the distance the
@@ -60,7 +63,7 @@ class PositionInfo {
    * @param  robotAngle
    * @param  distance
    * @param  robotPosition
-   * @return
+   * @return temp
    */
   public Point absolutePoint(double radarAngle, double robotAngle, double distance, Point robotPosition) {
     Point temp = new Point((int) (distance * (Math.cos(radarAngle) + Math.cos(robotAngle))),
