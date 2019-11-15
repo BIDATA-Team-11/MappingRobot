@@ -39,8 +39,8 @@ public class App extends Application {
   }
 
   /**
-   * Main-method for the client. You get the choice to print out the colors
-   * the ColorSensor detects, calibrate the ColorSensor or make the robot drive.
+   * Main-method for the client. You get the choice to print out the colors the
+   * ColorSensor detects, calibrate the ColorSensor or make the robot drive.
    *
    * @param args Arguments will be ignored.
    */
@@ -105,8 +105,8 @@ public class App extends Application {
   /**
    * Starts the robot.
    *
-   * @param ColorSensor      Located in the center of the robotcar.
-   * @param robot            Assisting class for the motors.
+   * @param ColorSensor Located in the center of the robotcar.
+   * @param robot       Assisting class for the motors.
    * @see ColorSensor
    * @see Robot
    */
@@ -114,78 +114,67 @@ public class App extends Application {
     final LinkedBlockingQueue<Integer> vinkel = new LinkedBlockingQueue<Integer>();
     final LinkedBlockingQueue<Melding> klar = new LinkedBlockingQueue<Melding>();
 
-
     Thread kjør = new Thread(new Runnable() {
       /**
-       *  These floats sets the closest distance the robot should be before
-       *  navigating to the opposite direction to avoid collosion.
-       *  @param offset_left
-       *  @param offset_right
-       *  @param offset_front
+       * These floats sets the closest distance the robot should be before navigating
+       * to the opposite direction to avoid collosion.
+       *
+       * @param minimumDistanceToObstacle
+       * @param offset_right
+       * @param offset_front
        */
-      float offset_left = 0.30f;
+      float minimumDistanceToObstacle = 0.30f;
       float offset_right = 0.50f;
       float offset_front = 0.50f;
 
       boolean hinder = false;
+
       /**
-       *  Hurdle-navigation
+       * Hurdle-navigation
        *
-       *  This method tells the robot if the offsets are within range or not.
-       *  When the offset is within range the robot starts avading by moving the
-       *  opposite direction.
+       * This method tells the robot if the offsets are within range or not. When the
+       * offset is within range the robot starts avading by moving the opposite
+       * direction.
        *
        */
       public void run() {
-        try(Motor motor = new Motor(ev3)) {
-          while(true) {
+        try (Motor motor = new Motor(ev3)) {
+          while (true) {
             if (Thread.interrupted()) {
               motor.close();
             } else {
               Melding melding = klar.take();
 
-              if (melding.vinkel == 90) {
-                if (melding.distance < offset_left) {
-                  motor.right();
-                } else if ((melding.distance > offset_right) && !hinder) {
+              if (melding.distance < minimumDistanceToObstacle) {
+                if (melding.vinkel <= 0) {
                   motor.left();
                 } else {
-                  motor.forward();
-                }
-              } else if (melding.vinkel == 0) {
-                if (melding.distance < offset_front) {
-                  hinder = true;
                   motor.right();
-                } else {
-                  hinder = false;
-                  motor.forward();
                 }
               }
-
               // motor.forward();
             }
           }
-        } catch (RemoteException e) { }
-        catch (InterruptedException e) {}
+        } catch (RemoteException e) {
+        } catch (InterruptedException e) {
+        }
       }
     });
-
 
     Thread motor = new Thread(new Runnable() {
 
       /**
-       *  RadarRotation
+       * RadarRotation
        *
-       *  This method controlls the motor of the rotating radar.
-       *  It rotates 90 degrees to either direction and stops when the boolean
-       *  done is true.
+       * This method controlls the motor of the rotating radar. It rotates 90 degrees
+       * to either direction and stops when the boolean done is true.
        *
        */
       public void run() {
-        try(SimpleMotor motor = new SimpleMotor(ev3, "B")) {
+        try (SimpleMotor motor = new SimpleMotor(ev3, "B")) {
           boolean done = false;
 
-          while(true) {
+          while (true) {
             if (Thread.interrupted()) {
               motor.rotate(0);
               motor.close();
@@ -203,8 +192,8 @@ public class App extends Application {
               }
             }
           }
-        } catch(RemoteException e) {
-        // } catch (InterruptedException e) {
+        } catch (RemoteException e) {
+          // } catch (InterruptedException e) {
           // motor.rotate(0);
           // motor.close();
         }
@@ -213,47 +202,42 @@ public class App extends Application {
 
     Thread radar = new Thread(new Runnable() {
       /**
-       *  Pingsender
+       * Pingsender
        *
-       *  This method tells the ultrasonic sensor when it should ping and when it
-       *  should not. More detailed; when the rotation is at 0 and 90 degrees
-       *  the ultrasonic sensor should ping. Whenever its between those degrees
-       *  it doesn't ping.
+       * This method tells the ultrasonic sensor when it should ping and when it
+       * should not. More detailed; when the rotation is at 0 and 90 degrees the
+       * ultrasonic sensor should ping. Whenever its between those degrees it doesn't
+       * ping.
        */
       public void run() {
-        try(Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
+        try (Ultrasonic sonic = new Ultrasonic(ev3, "S1")) {
           Float distance;
-          while(true) {
+          while (true) {
             if (Thread.interrupted()) {
               sonic.close();
             } else {
               Integer v = vinkel.take();
-              if (v.intValue() == 90 || v.intValue() == 0) {
+              if (v.intValue() % 10 == 0) {
                 distance = Float.valueOf(sonic.getDistance());
                 System.out.println(distance);
-                if (!distance.isInfinite()) {
-                  klar.add(new Melding(v, distance));
-                } else {
-                  klar.add(new Melding(v, Float.valueOf(2.0f)));
-                }
+                klar.add(new Melding(v, distance));
               }
               // Thread.sleep(1000);
             }
           }
-        } catch(RemoteException e) {
-        // } catch (InterruptedException e) {
+        } catch (RemoteException e) {
+          // } catch (InterruptedException e) {
         } catch (IOException e) {
         } catch (Exception e) {
         }
       }
     });
 
-
     Thread gyro = new Thread(new Runnable() {
       public void run() {
-        try(Gyro gyro = new Gyro(ev3, "S2")) {
+        try (Gyro gyro = new Gyro(ev3, "S2")) {
           float angle;
-          while(true) {
+          while (true) {
             if (Thread.interrupted()) {
               gyro.close();
             } else {
@@ -262,7 +246,7 @@ public class App extends Application {
               Thread.sleep(1000);
             }
           }
-        } catch(RemoteException e) {
+        } catch (RemoteException e) {
         } catch (IOException e) {
         } catch (InterruptedException e) {
         } catch (Exception e) {
@@ -272,9 +256,9 @@ public class App extends Application {
 
     Thread farge = new Thread(new Runnable() {
       public void run() {
-        try(Farge farge = new Farge(ev3, "S3")) {
+        try (Farge farge = new Farge(ev3, "S3")) {
           float colorID;
-          while(true) {
+          while (true) {
             if (Thread.interrupted()) {
               farge.close();
             } else {
@@ -283,7 +267,7 @@ public class App extends Application {
               Thread.sleep(1000);
             }
           }
-        } catch(RemoteException e) {
+        } catch (RemoteException e) {
         } catch (IOException e) {
         } catch (InterruptedException e) {
         } catch (Exception e) {
@@ -291,39 +275,37 @@ public class App extends Application {
       }
     });
 
-
     // Thread chart = new Thread(new Runnable() {
-    //   public void run() {
-    //     try {
-    //       LineChart mapping = new LineChart();
-    //     } catch (Exception e) {
-    //       System.out.println(e);
-    //     }
-    //   }
+    // public void run() {
+    // try {
+    // LineChart mapping = new LineChart();
+    // } catch (Exception e) {
+    // System.out.println(e);
+    // }
+    // }
     // });
 
-
     // try {
-      // radar.start();
-      // motor.start();
-      // kjør.start();
-      // gyro.start();
-      // farge.start();
-      // chart.start();
+    // radar.start();
+    // motor.start();
+    // kjør.start();
+    // gyro.start();
+    // farge.start();
+    // chart.start();
 
-      // radar.join();
-      // motor.join();
-      // kjør.join();
-      // gyro.join();
-      // farge.join();
-      // chart.join();
+    // radar.join();
+    // motor.join();
+    // kjør.join();
+    // gyro.join();
+    // farge.join();
+    // chart.join();
     // } catch (InterruptedException e) {
-      // kjør.interrupt();
-      // radar.interrupt();
-      // motor.interrupt();
-      // gyro.interrupt();
-      // farge.interrupt();
-      // chart.interrupt();
+    // kjør.interrupt();
+    // radar.interrupt();
+    // motor.interrupt();
+    // gyro.interrupt();
+    // farge.interrupt();
+    // chart.interrupt();
     // }
   }
 }

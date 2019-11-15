@@ -1,12 +1,12 @@
 package mappingrobot;
 /**
- * @author Stian Selvåg
+ * @author Stian SelvÃ¥g
  * @author Herman Aagaard
- * @author Henrik Hafsø
- * @author Joakim Skogål Langvand
+ * @author Henrik HafsÃ¸
+ * @author Joakim SkogÃ¥l Langvand
  * @author Erling Sletta
- * @author Torbjørn Øverås
- * @author Group 11, dataingeniør NTNU, første semester.
+ * @author TorbjÃ¸rn Ã˜verÃ¥s
+ * @author Group 11, dataingeniÃ¸r NTNU, fÃ¸rste semester.
  * @version 2.0.0
  */
 public class Melding {
