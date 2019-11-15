@@ -23,8 +23,8 @@ class PositionInfo {
     Point robotPosition = getRobotPosition();
     Point radarPoint = new Point((int) (radarDistance * Math.cos(radarAngle)),
         (int) (radarDistance * Math.sin(radarAngle)));
-
-    return null;
+    radarPoint.translate((int) robotPosition.getX(), (int) robotPosition.getY());
+    return radarPoint;
   }
 
   public Point absolutePoint(double radarAngle, double robotAngle, double distance, Point robotPosition) {
