@@ -11,46 +11,46 @@ import java.lang.InterruptedException;
 public class Motor implements AutoCloseable {
 
   private RemoteEV3 ev3;
-  private RMIRegulatedMotor MVenstre;
-  private RMIRegulatedMotor MHøyre;
+  private RMIRegulatedMotor leftMotor;
+  private RMIRegulatedMotor rightMotor;
 
   public Motor(RemoteEV3 ev3) {
     this.ev3 = ev3;
-    this.MVenstre = this.ev3.createRegulatedMotor("A", 'L');
-    this.MHøyre = this.ev3.createRegulatedMotor("C", 'L');
+    this.leftMotor = this.ev3.createRegulatedMotor("A", 'L');
+    this.rightMotor = this.ev3.createRegulatedMotor("C", 'L');
 
   }
 
   private void createLeft() {
-    this.MVenstre = this.ev3.createRegulatedMotor("A", 'L');
+    this.leftMotor = this.ev3.createRegulatedMotor("A", 'L');
   }
 
   private void createRight() {
-    this.MHøyre = this.ev3.createRegulatedMotor("C", 'L');
+    this.rightMotor = this.ev3.createRegulatedMotor("C", 'L');
   }
 
   @Override
   public void close() throws RemoteException {
     try {
-      this.MVenstre.close();
-      this.MHøyre.close();
+      this.leftMotor.close();
+      this.rightMotor.close();
     } catch (IOException e) {
       e.printStackTrace();
     }
   }
 
   public void stop() throws RemoteException {
-    this.MVenstre.stop(true);
-    this.MHøyre.stop(true);
+    this.leftMotor.stop(true);
+    this.rightMotor.stop(true);
   }
 
   public void left() throws RemoteException {
     try {
-    // createRight();
-    // createLeft();
+      // createRight();
+      // createLeft();
 
-      this.MHøyre.backward();
-      this.MVenstre.stop(true);
+      this.rightMotor.backward();
+      this.leftMotor.stop(true);
 
       Thread.sleep(10);
 
@@ -64,8 +64,8 @@ public class Motor implements AutoCloseable {
       // createRight();
       // createLeft();
 
-      this.MVenstre.backward();
-      this.MHøyre.stop(true);
+      this.leftMotor.backward();
+      this.rightMotor.stop(true);
       // close();
 
       // Thread.sleep(2000);
@@ -81,8 +81,8 @@ public class Motor implements AutoCloseable {
       // createRight();
       // createLeft();
 
-      this.MVenstre.forward();
-      this.MHøyre.forward();
+      this.leftMotor.forward();
+      this.rightMotor.forward();
 
       Thread.sleep(10);
 
@@ -96,8 +96,8 @@ public class Motor implements AutoCloseable {
       // createRight();
       // createLeft();
 
-      this.MVenstre.backward();
-      this.MHøyre.backward();
+      this.leftMotor.backward();
+      this.rightMotor.backward();
       // close();
 
       // Thread.sleep(2000);
