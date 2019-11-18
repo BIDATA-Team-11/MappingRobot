@@ -27,6 +27,7 @@ public class Ultrasonic implements AutoCloseable {
   /**
    * Construct new ultrasonic object using default EV3 brick.
    *
+   * @param ev3 RMI connection to Ev3 computer.
    * @param port Physical port where the sensor is connected.
    */
   public Ultrasonic(RemoteEV3 ev3, String port) {

@@ -29,6 +29,7 @@ public class SimpleMotor implements AutoCloseable {
   /**
    * Construct new simplemotor object using default Ev3 brick.
    *
+   * @param ev3 RMI connection to Ev3 computer.
    * @param port physical port where the motor is connected.
    */
   public SimpleMotor(RemoteEV3 ev3, String port) { 

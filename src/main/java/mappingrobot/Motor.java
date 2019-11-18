@@ -31,6 +31,7 @@ public class Motor implements AutoCloseable {
    * Constructer for setting value of ev3. It also pairs left and right motor with
    * ports.
    *
+   * @param ev3 RMI connection to Ev3 computer.
    */
   public Motor(RemoteEV3 ev3) {
     this.ev3 = ev3;
